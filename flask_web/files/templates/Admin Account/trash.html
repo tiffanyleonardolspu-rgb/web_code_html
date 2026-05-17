@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trash | MediCare</title>
+    
+    <!-- COPY THESE EXACT LINKS FROM YOUR WORKING PAGE -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar_design.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/staff_dashboard.css') }}">
+</head>
+<body>
+    
+
+<div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo" class="logo" />
+            <h2>MediCare | Admin</h2>
+            <p>Inventory System</p>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('admin_account') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('medicine_tab') }}">Medicine</a></li>
+                <li><a href="{{ url_for('notif_tab') }}">Notification</a></li>
+                <li><a href="{{ url_for('staff_account') }}">Staff</a></li>
+                <li><a href="{{ url_for('history_tab') }}">History</a></li>
+                <li class="active"><a href="{{ url_for('trash_tab') }}">Trash</a></li>
+                <li><a href="{{ url_for('generate_invite') }}">Generate Invite Code</a></li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button onclick="return confirm('Are you sure you want to log out?')">
+                <a href="{{ url_for('logout') }}">Log out</a>
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <h1>Trash</h1>
+        <p>Deleted items will appear here.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Category</th>
+                    <th>Deleted Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="4" style="text-align: center;">No items in trash</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+</div>
+
+</body>
+</html>

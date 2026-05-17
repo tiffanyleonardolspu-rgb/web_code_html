@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staff Management | MediCare</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    display:flex;
+    background:#f5f7fa;
+    height:100vh;
+    overflow:hidden;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:270px;
+    background:#c0392b;
+    color:white;
+    display:flex;
+    flex-direction:column;
+}
+
+.logo{
+    text-align:center;
+    padding:30px 20px;
+}
+
+.logo h1{
+    font-size:34px;
+}
+
+.logo h2{
+    margin-top:10px;
+}
+
+.logo p{
+    color:#f0c0c0;
+    margin-top:5px;
+}
+
+.divider{
+    height:2px;
+    background:#e74c3c;
+    margin:0 20px 20px;
+}
+
+.nav{
+    padding:0 10px;
+}
+
+.nav button{
+    width:100%;
+    padding:14px 18px;
+    border:none;
+    background:none;
+    color:white;
+    text-align:left;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:15px;
+    margin-bottom:5px;
+    transition:0.3s;
+}
+
+.nav button:hover,
+.nav button.active{
+    background:#e74c3c;
+}
+
+.sidebar-footer{
+    margin-top:auto;
+    padding:20px;
+    text-align:center;
+}
+
+.logout-btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:white;
+    color:#c0392b;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* MAIN */
+
+.main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+
+/* HEADER */
+
+.header{
+    padding:20px;
+}
+
+.header h1{
+    color:#2c3e50;
+}
+
+.top-line{
+    height:3px;
+    background:#DA6363;
+    margin-top:12px;
+}
+
+/* CONTENT */
+
+.content{
+    flex:1;
+    display:flex;
+    gap:15px;
+    padding:15px;
+    overflow:hidden;
+}
+
+/* LEFT PANEL */
+
+.left-panel{
+    width:38%;
+    background:white;
+    border-radius:14px;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+}
+
+.panel-header{
+    background:#DA6363;
+    color:white;
+    padding:15px;
+    font-weight:bold;
+}
+
+.search-box{
+    padding:15px;
+    display:flex;
+    gap:10px;
+}
+
+.search-box input{
+    flex:1;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+}
+
+.clear-btn{
+    padding:12px 14px;
+    border:none;
+    border-radius:10px;
+    background:#E88383;
+    color:white;
+    cursor:pointer;
+}
+
+/* FILTERS */
+
+.filters{
+    display:flex;
+    gap:10px;
+    padding:0 15px 15px;
+}
+
+.filters button{
+    flex:1;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    background:#f0f2f5;
+    cursor:pointer;
+}
+
+.filters button.active{
+    background:#DA6363;
+    color:white;
+}
+
+/* STAFF LIST */
+
+.staff-list{
+    flex:1;
+    overflow:auto;
+}
+
+.staff-item{
+    padding:15px;
+    border-bottom:1px solid #eee;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.staff-item:hover{
+    background:#fff5f5;
+}
+
+.staff-item h3{
+    font-size:16px;
+    color:#2c3e50;
+}
+
+.staff-item p{
+    color:#7f8c8d;
+    margin-top:4px;
+    font-size:14px;
+}
+
+/* RIGHT PANEL */
+
+.right-panel{
+    flex:1;
+    background:white;
+    border-radius:14px;
+    overflow:auto;
+}
+
+.profile-content{
+    padding:25px;
+}
+
+/* PROFILE */
+
+.profile-top{
+    display:flex;
+    gap:20px;
+    align-items:center;
+}
+
+.profile-pic{
+    width:120px;
+    height:120px;
+    border-radius:12px;
+    background:#DA6363;
+}
+
+.profile-info h2{
+    color:#2c3e50;
+}
+
+.profile-info p{
+    color:#7f8c8d;
+    margin-top:5px;
+}
+
+/* DETAILS */
+
+.details{
+    margin-top:30px;
+}
+
+.detail-row{
+    display:flex;
+    padding:12px 0;
+    border-bottom:1px solid #f0f0f0;
+}
+
+.detail-label{
+    width:180px;
+    font-weight:bold;
+    color:#7f8c8d;
+}
+
+.detail-value{
+    color:#2c3e50;
+    flex:1;
+}
+
+/* STATUS */
+
+.status{
+    display:inline-block;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.approved{
+    background:#d4f8e8;
+    color:#1e7b48;
+}
+
+.pending{
+    background:#fff3cd;
+    color:#b45309;
+}
+
+.declined{
+    background:#ffe0e0;
+    color:#b91c1c;
+}
+
+/* ACTIONS */
+
+.actions{
+    margin-top:25px;
+    display:flex;
+    gap:10px;
+}
+
+.btn{
+    padding:12px 18px;
+    border:none;
+    border-radius:10px;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.approve-btn{
+    background:#2ecc71;
+}
+
+.decline-btn{
+    background:#e74c3c;
+}
+
+.remove-btn{
+    background:#c0392b;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+    body{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        width:100%;
+        height:auto;
+    }
+
+    .content{
+        flex-direction:column;
+    }
+
+    .left-panel{
+        width:100%;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+    <div class="logo">
+        <h1>🏥</h1>
+        <h2>RHU Pila</h2>
+        <p>MediCare System</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="nav">
+
+        <button>🏠 Dashboard</button>
+        <button>💊 Inventory</button>
+        <button>📦 Restock</button>
+        <button class="active">👥 Staff</button>
+        <button>📜 History</button>
+        <button>🗑️ Trash</button>
+
+    </div>
+
+    <div class="sidebar-footer">
+
+        <p><strong>👤 Admin:</strong> Jillian Gutierrez</p>
+        <p style="margin:6px 0 15px;color:#f0c0c0;">
+            Inventory Manager
+        </p>
+
+        <button class="logout-btn">
+            🚪 Logout
+        </button>
+
+    </div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>Staff Management</h1>
+
+        <div class="top-line"></div>
+
+    </div>
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+        <!-- LEFT PANEL -->
+
+        <div class="left-panel">
+
+            <div class="panel-header">
+                📋 Registered Staff
+            </div>
+
+            <div class="search-box">
+
+                <input type="text" placeholder="Search staff...">
+
+                <button class="clear-btn">
+                    ✕
+                </button>
+
+            </div>
+
+            <div class="filters">
+
+                <button class="active">All</button>
+                <button>Pending</button>
+                <button>Approved</button>
+                <button>Declined</button>
+
+            </div>
+
+            <!-- STAFF LIST -->
+
+            <div class="staff-list">
+
+                <div class="staff-item">
+
+                    <h3>✓ Jillian Gutierrez</h3>
+
+                    <p>Inventory Manager</p>
+
+                </div>
+
+                <div class="staff-item">
+
+                    <h3>⏳ Sophia Martinez</h3>
+
+                    <p>Lab Technician</p>
+
+                </div>
+
+                <div class="staff-item">
+
+                    <h3>✗ James Whitmore</h3>
+
+                    <p>Pharmacist</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT PANEL -->
+
+        <div class="right-panel">
+
+            <div class="panel-header">
+                👤 Staff Profile
+            </div>
+
+            <div class="profile-content">
+
+                <div class="profile-top">
+
+                    <div class="profile-pic"></div>
+
+                    <div class="profile-info">
+
+                        <h2>Jillian Gutierrez</h2>
+
+                        <p>Inventory Manager</p>
+
+                        <p>@jillian.gutierrez</p>
+
+                    </div>
+
+                </div>
+
+                <!-- DETAILS -->
+
+                <div class="details">
+
+                    <div class="detail-row">
+
+                        <div class="detail-label">
+                            Invite Code:
+                        </div>
+
+                        <div class="detail-value">
+                            INV-MED-001
+                        </div>
+
+                    </div>
+
+                    <div class="detail-row">
+
+                        <div class="detail-label">
+                            Date of Birth:
+                        </div>
+
+                        <div class="detail-value">
+                            1990-05-15
+                        </div>
+
+                    </div>
+
+                    <div class="detail-row">
+
+                        <div class="detail-label">
+                            Email Address:
+                        </div>
+
+                        <div class="detail-value">
+                            jillian.gutierrez@rhupila.ph
+                        </div>
+
+                    </div>
+
+                    <div class="detail-row">
+
+                        <div class="detail-label">
+                            Phone Number:
+                        </div>
+
+                        <div class="detail-value">
+                            +63 912 345 6789
+                        </div>
+
+                    </div>
+
+                    <div class="detail-row">
+
+                        <div class="detail-label">
+                            Address:
+                        </div>
+
+                        <div class="detail-value">
+                            123 Health Avenue, Purok 2, Barangay San Antonio, Pila, Laguna
+                        </div>
+
+                    </div>
+
+                    <div class="detail-row">
+
+                        <div class="detail-label">
+                            Status:
+                        </div>
+
+                        <div class="detail-value">
+
+                            <span class="status approved">
+                                🟢 Active
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ACTIONS -->
+
+                <div class="actions">
+
+                    <button class="btn approve-btn">
+                        ✓ Approve
+                    </button>
+
+                    <button class="btn decline-btn">
+                        ✗ Decline
+                    </button>
+
+                    <button class="btn remove-btn">
+                        🗑 Remove
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

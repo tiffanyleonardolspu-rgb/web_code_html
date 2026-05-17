@@ -1,0 +1,185 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #f3f3f3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.container {
+  margin-top: 50px;
+  width: 380px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-card {
+  background: #fff;
+  padding: 50px 40px;
+  margin-bottom: 50px;
+  border-radius: 15px;
+  box-shadow: 0 -5px 55px rgba(0, 0, 0, 0.08);
+  width: 380px;
+  text-align: center;
+  border-top: 8px solid #e57373;
+}
+
+.logo {
+  width: 60px;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 1.6rem;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  text-align: left;
+  margin: 10px 0 5px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+
+}
+
+.input-group .icon {
+  margin-right: 8px;
+  color: #777;
+}
+
+.input-group input {
+  border: none;
+  outline: none;
+  flex: 1;
+  background: transparent;
+  font-size: 0.95rem;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  font-size: 13px;
+  outline: none;
+  background-color: #fff;
+}
+
+input:focus, select:focus {
+  border: 1px solid #f7a8a8;
+  box-shadow: 0 0 5px rgba(255,150,150,0.5);
+}
+
+.options {
+  display: flex;
+  font-size: 14px;
+  margin-bottom: 10px;
+  translate: 180px;
+  padding: none;
+  margin-top: none;
+  cursor: pointer;
+
+}
+
+.options a {
+  color: #e57373;
+  text-decoration: none;
+}
+
+
+.login-btn {
+  background: #f28b82;
+  border: none;
+  color: #fff;
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background: #e57373;
+}
+
+.divider {
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+  color: #888;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  position: absolute;
+  width: 40%;
+  height: 1px;
+  background: #ddd;
+  top: 50%;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+.g_id_signin {
+  padding: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+  border-radius: 10px;
+}
+
+.g_id_signin data-shape :hover {
+  background: #ffa5a5;
+}
+
+
+.invite {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.invite a {
+  color: #e57373;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.inventorydb {
+  padding-bottom: 20px;
+  color: grey;
+  text-decoration: none;
+  font-family: 'Nunito Sans', sans-serif;
+}

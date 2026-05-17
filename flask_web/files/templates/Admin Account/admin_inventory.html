@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediCare Inventory System</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, sans-serif;
+}
+
+body{
+    display:flex;
+    background:#f5f7fa;
+    height:100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:260px;
+    background:#c0392b;
+    color:white;
+    display:flex;
+    flex-direction:column;
+}
+
+.logo{
+    text-align:center;
+    padding:30px 20px;
+}
+
+.logo h1{
+    font-size:28px;
+}
+
+.logo p{
+    color:#f0c0c0;
+    margin-top:5px;
+}
+
+.nav{
+    padding:20px 10px;
+}
+
+.nav button{
+    width:100%;
+    padding:14px 20px;
+    border:none;
+    background:none;
+    color:white;
+    text-align:left;
+    font-size:16px;
+    cursor:pointer;
+    border-radius:8px;
+    margin-bottom:5px;
+    transition:0.3s;
+}
+
+.nav button:hover,
+.nav button.active{
+    background:#e74c3c;
+}
+
+/* MAIN */
+.main{
+    flex:1;
+    padding:20px;
+    overflow:auto;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.header h2{
+    font-size:32px;
+    color:#2c3e50;
+}
+
+/* CATEGORY BUTTONS */
+.categories{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    margin-bottom:20px;
+}
+
+.categories button{
+    padding:10px 18px;
+    border:1px solid #ddd;
+    background:white;
+    border-radius:8px;
+    cursor:pointer;
+    white-space:nowrap;
+}
+
+/* TOOLBAR */
+.toolbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.left-tools{
+    display:flex;
+    gap:10px;
+}
+
+.btn{
+    padding:10px 18px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    color:white;
+    background:#DA6363;
+}
+
+.search input{
+    padding:10px;
+    width:250px;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+/* TABLE */
+.table-container{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+thead{
+    background:#DA6363;
+    color:white;
+}
+
+th, td{
+    padding:14px;
+    text-align:center;
+}
+
+tbody tr{
+    border-bottom:1px solid #eee;
+}
+
+tbody tr:hover{
+    background:#f9f9f9;
+}
+
+/* STATUS */
+.status{
+    padding:6px 14px;
+    border-radius:20px;
+    color:white;
+    font-size:13px;
+}
+
+.restocked{
+    background:#3498db;
+}
+
+.low{
+    background:#f1c40f;
+    color:black;
+}
+
+.expired{
+    background:#e74c3c;
+}
+
+.completed{
+    background:#2ecc71;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <div class="logo">
+        <h1>🏥 MediCare</h1>
+        <p>Inventory System</p>
+    </div>
+
+    <div class="nav">
+        <button class="active">🏠 Dashboard</button>
+        <button>💊 Medicine</button>
+        <button>🔔 Notification</button>
+        <button>👥 Staff</button>
+        <button>📦 Archive</button>
+        <button>🗑️ Trash</button>
+    </div>
+
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+    <div class="header">
+        <h2>Medicine Categories</h2>
+    </div>
+
+    <!-- Categories -->
+    <div class="categories">
+        <button>💊 Essential Medication (7)</button>
+        <button>🛡️ Personal Protection (2)</button>
+        <button>🚑 First Aid Tool (1)</button>
+        <button>🩹 Wound Care Items (2)</button>
+        <button>🔬 Diagnostic Tools (1)</button>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+
+        <div class="left-tools">
+            <button class="btn">📋 List Item</button>
+            <button class="btn">+ Add New Item</button>
+        </div>
+
+        <div class="search">
+            <input type="text" placeholder="Search item...">
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Stock</th>
+                    <th>Expiration</th>
+                    <th>Date Modified</th>
+                    <th>Status</th>
+                    <th>RFID</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>Paracetamol 500mg</td>
+                    <td>150</td>
+                    <td>2026-12-31</td>
+                    <td>2026-04-28</td>
+                    <td>
+                        <span class="status restocked">Restocked</span>
+                    </td>
+                    <td>RFID001</td>
+                    <td>✏️ 📦</td>
+                </tr>
+
+                <tr>
+                    <td>Cough Syrup</td>
+                    <td>25</td>
+                    <td>2026-09-10</td>
+                    <td>2026-04-25</td>
+                    <td>
+                        <span class="status low">Low Stock</span>
+                    </td>
+                    <td>RFID004</td>
+                    <td>✏️ 📦</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

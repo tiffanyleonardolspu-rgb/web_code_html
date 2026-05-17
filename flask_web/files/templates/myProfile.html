@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Staff Profile | Medicare Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .main-card {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        
+        /* Header Section */
+        .header {
+            background: #DA6363;
+            padding: 20px 24px;
+        }
+        
+        .header-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .left-section {
+            flex: 1;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        
+        .profile-container {
+            position: relative;
+            width: 90px;
+        }
+        
+        .profile-pic-wrapper {
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+        
+        .profile-pic {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #DA6363;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            cursor: default;
+        }
+        
+        .profile-buttons {
+            position: absolute;
+            top: 85px;
+            left: 0;
+            width: 80px;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .profile-container:hover .profile-buttons {
+            opacity: 1;
+        }
+        
+        .profile-btn {
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+        
+        .profile-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .edit-btn {
+            color: #DA6363;
+        }
+        
+        .remove-btn {
+            color: #DA6363;
+        }
+        
+        .name-role {
+            flex: 1;
+        }
+        
+        .name {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        
+        .role {
+            color: rgba(255,255,255,0.9);
+            font-size: 13px;
+        }
+        
+        .bottom-row {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        
+        .invite-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .invite-label {
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        .invite-code {
+            background: white;
+            color: #DA6363;
+            font-family: monospace;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 6px;
+        }
+        
+        /* Content Section */
+        .content {
+            padding: 20px 24px;
+        }
+        
+        .section {
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+        
+        .title-underline {
+            width: 50px;
+            height: 3px;
+            background: #DA6363;
+            margin-top: 4px;
+        }
+        
+        /* Table Styles */
+        .info-table {
+            width: 100%;
+            border: 1px solid #eef2f6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .info-table-header {
+            display: grid;
+            background: #f8f9fc;
+            border-bottom: 1px solid #eef2f6;
+        }
+        
+        .info-table-row {
+            display: grid;
+            background: white;
+        }
+        
+        .info-table-cell {
+            padding: 12px 15px;
+            font-size: 13px;
+            color: #2c3e50;
+            border-right: 1px solid #eef2f6;
+        }
+        
+        .info-table-cell:last-child {
+            border-right: none;
+        }
+        
+        .header-cell {
+            background: #f8f9fc;
+            color: #3a4a5c;
+            font-weight: bold;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .grid-5 {
+            grid-template-columns: repeat(5, 1fr);
+        }
+        
+        /* Footer */
+        .footer {
+            padding: 16px 24px;
+            border-top: 1px solid #eef2f6;
+            text-align: center;
+        }
+        
+        .footer-text {
+            font-size: 11px;
+            color: #7f8c8d;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            width: 90%;
+            max-width: 400px;
+        }
+        
+        .modal-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: #2c3e50;
+        }
+        
+        .modal-body {
+            margin-bottom: 20px;
+        }
+        
+        .file-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-top: 8px;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        
+        .modal-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        
+        .modal-btn-primary {
+            background: #DA6363;
+            color: white;
+        }
+        
+        .modal-btn-secondary {
+            background: #e0e0e0;
+            color: #2c3e50;
+        }
+        
+        .modal-btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            z-index: 1100;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .toast.success {
+            background: #27ae60;
+        }
+        
+        .toast.error {
+            background: #e74c3c;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* preview image styling */
+        .profile-preview-img {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: contain;
+            margin-bottom: 12px;
+            border-radius: 12px;
+        }
+        
+        @media (max-width: 768px) {
+            .left-section {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .name-role {
+                text-align: center;
+            }
+            
+            .grid-3, .grid-5 {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-table-cell {
+                border-right: none;
+                border-bottom: 1px solid #eef2f6;
+            }
+            
+            .info-table-row {
+                border-bottom: 1px solid #eef2f6;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="main-card">
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="left-section">
+                <div class="profile-container">
+                    <div class="profile-pic-wrapper">
+                        <!-- Profile picture from localStorage or placeholder -->
+                        <div id="profileAvatar" class="profile-pic" style="background: #DA6363; display: flex; align-items: center; justify-content: center;">
+                            JL
+                        </div>
+                        <img id="profileImageTag" style="display: none; width:80px; height:80px; border-radius:50%; object-fit:cover;" alt="Profile">
+                    </div>
+                    <div class="profile-buttons">
+                        <button class="profile-btn edit-btn" onclick="openUploadModal()" title="Edit">✏</button>
+                        <button class="profile-btn remove-btn" onclick="removeProfilePicture()" title="Remove">🗑</button>
+                    </div>
+                </div>
+                <div class="name-role">
+                    <div class="name" id="staffFullName">Jillian Leonardo</div>
+                    <div class="role">Staff · Core Member</div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-row">
+            <div class="invite-section">
+                <span class="invite-label">✨ INVITE CODE</span>
+                <span class="invite-code" id="inviteCodeSpan">01983</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Content -->
+    <div class="content">
+        <!-- Personal Information Section -->
+        <div class="section">
+            <div class="section-title">Personal Information</div>
+            <div class="title-underline"></div>
+            
+            <div class="info-table" style="margin-top: 16px;">
+                <!-- First row -->
+                <div class="info-table-header grid-3">
+                    <div class="info-table-cell header-cell">Full Name</div>
+                    <div class="info-table-cell header-cell">Username</div>
+                    <div class="info-table-cell header-cell">Date of Birth</div>
+                </div>
+                <div class="info-table-row grid-3">
+                    <div class="info-table-cell" id="displayFullName">Jillian Leonardo</div>
+                    <div class="info-table-cell" id="displayUsername">jillian.leonardo</div>
+                    <div class="info-table-cell" id="displayDob">January 02, 2006</div>
+                </div>
+                
+                <!-- Second row -->
+                <div class="info-table-header grid-3">
+                    <div class="info-table-cell header-cell">Email Address</div>
+                    <div class="info-table-cell header-cell">Phone Number</div>
+                    <div class="info-table-cell header-cell">User Role</div>
+                </div>
+                <div class="info-table-row grid-3">
+                    <div class="info-table-cell" id="displayEmail">jillian.leonardo@medicare.com</div>
+                    <div class="info-table-cell" id="displayPhone">0987654321</div>
+                    <div class="info-table-cell" id="displayRole">Staff</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Address Section -->
+        <div class="section">
+            <div class="section-title">Address</div>
+            <div class="title-underline"></div>
+            
+            <div class="info-table" style="margin-top: 16px;">
+                <div class="info-table-header grid-5">
+                    <div class="info-table-cell header-cell">Street</div>
+                    <div class="info-table-cell header-cell">Purok</div>
+                    <div class="info-table-cell header-cell">Barangay</div>
+                    <div class="info-table-cell header-cell">Municipality</div>
+                    <div class="info-table-cell header-cell">City/Province</div>
+                </div>
+                <div class="info-table-row grid-5">
+                    <div class="info-table-cell" id="displayStreet">Balagtas Street</div>
+                    <div class="info-table-cell" id="displayPurok">Purok 3</div>
+                    <div class="info-table-cell" id="displayBarangay">Santa Clara Sur</div>
+                    <div class="info-table-cell" id="displayMunicipality">Pila</div>
+                    <div class="info-table-cell" id="displayProvince">Laguna</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-text">Staff portal · Updated information reflects official record</div>
+    </div>
+</div>
+
+<!-- Upload Modal -->
+<div id="uploadModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">Upload Profile Picture</div>
+        <div class="modal-body">
+            <p style="margin-bottom: 8px;">Select an image file (PNG, JPG, JPEG, GIF, BMP)</p>
+            <div id="imagePreviewContainer" style="text-align:center; margin-bottom:12px;"></div>
+            <input type="file" id="profileFile" accept="image/png,image/jpeg,image/jpg,image/gif,image/bmp" class="file-input">
+        </div>
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
+            <button class="modal-btn modal-btn-primary" onclick="uploadProfilePicture()">Upload</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ========== CLIENT-SIDE PROFILE MANAGER (no backend, but visually works) ==========
+    // uses localStorage to persist profile picture + demo data
+    
+    // Staff data (editable via localStorage later, but static as reference)
+    let staffData = {
+        fullName: "Jillian Leonardo",
+        username: "jillian.leonardo",
+        dateOfBirth: "January 02, 2006",
+        email: "jillian.leonardo@medicare.com",
+        phoneNumber: "0987654321",
+        userRole: "Staff",
+        street: "Balagtas Street",
+        purok: "Purok 3",
+        barangay: "Santa Clara Sur",
+        municipality: "Pila",
+        cityProvince: "Laguna",
+        inviteCode: "01983"
+    };
+    
+    // initialize UI with data
+    function updateUIFromData() {
+        document.getElementById('staffFullName').innerText = staffData.fullName;
+        document.getElementById('displayFullName').innerText = staffData.fullName;
+        document.getElementById('displayUsername').innerText = staffData.username;
+        document.getElementById('displayDob').innerText = staffData.dateOfBirth;
+        document.getElementById('displayEmail').innerText = staffData.email;
+        document.getElementById('displayPhone').innerText = staffData.phoneNumber;
+        document.getElementById('displayRole').innerText = staffData.userRole;
+        document.getElementById('displayStreet').innerText = staffData.street;
+        document.getElementById('displayPurok').innerText = staffData.purok;
+        document.getElementById('displayBarangay').innerText = staffData.barangay;
+        document.getElementById('displayMunicipality').innerText = staffData.municipality;
+        document.getElementById('displayProvince').innerText = staffData.cityProvince;
+        document.getElementById('inviteCodeSpan').innerText = staffData.inviteCode;
+        
+        // initials for placeholder
+        const nameParts = staffData.fullName.split(' ');
+        let initials = nameParts[0].charAt(0);
+        if (nameParts.length > 1) initials += nameParts[1].charAt(0);
+        else if (staffData.fullName.length > 1) initials = staffData.fullName.substring(0,2).toUpperCase();
+        else initials = staffData.fullName.charAt(0).toUpperCase();
+        
+        const placeholderDiv = document.getElementById('profileAvatar');
+        const imgTag = document.getElementById('profileImageTag');
+        const savedPic = localStorage.getItem('staff_profile_pic');
+        
+        if (savedPic) {
+            placeholderDiv.style.display = 'none';
+            imgTag.style.display = 'flex';
+            imgTag.src = savedPic;
+            imgTag.style.width = '80px';
+            imgTag.style.height = '80px';
+            imgTag.style.borderRadius = '50%';
+            imgTag.style.objectFit = 'cover';
+        } else {
+            placeholderDiv.style.display = 'flex';
+            imgTag.style.display = 'none';
+            placeholderDiv.innerText = initials.toUpperCase();
+            placeholderDiv.style.background = '#DA6363';
+        }
+    }
+    
+    function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+    
+    function openUploadModal() {
+        document.getElementById('uploadModal').style.display = 'flex';
+        const previewDiv = document.getElementById('imagePreviewContainer');
+        previewDiv.innerHTML = '';
+    }
+    
+    function closeModal() {
+        document.getElementById('uploadModal').style.display = 'none';
+        document.getElementById('profileFile').value = '';
+        document.getElementById('imagePreviewContainer').innerHTML = '';
+    }
+    
+    // preview selected image
+    const fileInput = document.getElementById('profileFile');
+    if(fileInput) {
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const previewDiv = document.getElementById('imagePreviewContainer');
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    previewDiv.innerHTML = `<img src="${ev.target.result}" class="profile-preview-img" style="max-width:100%; max-height:160px; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">`;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewDiv.innerHTML = '<span style="font-size:12px; color:#999;">No preview</span>';
+            }
+        });
+    }
+    
+    function uploadProfilePicture() {
+        const fileInputEl = document.getElementById('profileFile');
+        const file = fileInputEl.files[0];
+        if (!file) {
+            showToast('Please select an image file', 'error');
+            return;
+        }
+        if (!file.type.match('image.*')) {
+            showToast('Invalid file type. Use PNG, JPG, JPEG, GIF, or BMP', 'error');
+            return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const base64Image = event.target.result;
+            sessionStorage.setItem('staff_profile_pic', base64Image);
+            // update UI
+            const avatarDiv = document.getElementById('profileAvatar');
+            const imgTag = document.getElementById('profileImageTag');
+            avatarDiv.style.display = 'none';
+            imgTag.style.display = 'flex';
+            imgTag.src = base64Image;
+            showToast('Profile picture updated!', 'success');
+            setTimeout(() => {
+                location.reload();
+            }, 800);
+        };
+        reader.readAsDataURL(file);
+        closeModal();
+    }
+    
+    function removeProfilePicture() {
+        if (confirm('Remove your profile picture?')) {
+            sessionStorage.removeItem('staff_profile_pic');
+            // reset to initials placeholder
+            const avatarDiv = document.getElementById('profileAvatar');
+            const imgTag = document.getElementById('profileImageTag');
+            imgTag.style.display = 'none';
+            avatarDiv.style.display = 'flex';
+            const nameParts = staffData.fullName.split(' ');
+            let initials = nameParts[0].charAt(0);
+            if (nameParts.length > 1) initials += nameParts[1].charAt(0);
+            avatarDiv.innerText = initials.toUpperCase();
+            showToast('Profile picture removed', 'success');
+            setTimeout(() => location.reload(), 500);
+        }
+    }
+    
+    // (optional) handle edit profile data - not required but user info remains consistent
+    updateUIFromData();
+    
+    // additional helper: if there is a saved profile pic on load, show it
+    window.addEventListener('load', function() {
+        const saved = sessionStorage.getItem('staff_profile_pic');
+        const avatarDiv = document.getElementById('profileAvatar');
+        const imgTag = document.getElementById('profileImageTag');
+        if (saved) {
+            avatarDiv.style.display = 'none';
+            imgTag.style.display = 'flex';
+            imgTag.src = saved;
+        } else {
+            avatarDiv.style.display = 'flex';
+            imgTag.style.display = 'none';
+        }
+        updateUIFromData();
+    });
+    
+    // close modal on outside click
+    window.onclick = function(event) {
+        const modal = document.getElementById('uploadModal');
+        if (event.target === modal) {
+            closeModal();
+        }
+    };
+</script>
+</body>
+</html>

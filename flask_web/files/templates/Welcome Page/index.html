@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome | MediCare</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/welcome_page.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Add this for the header and buttons */
+        .header {
+            background-color: var(--white);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo img {
+            height: 40px;
+        }
+        .logo h2 {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+        }
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            align-items: center;
+        }
+        .navbar a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+        .navbar a:hover {
+            color: var(--primary-color);
+        }
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 8px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .btn-login {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        .btn-register {
+            background-color: var(--primary-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER WITH LOGO, MENU AND BUTTONS -->
+<header class="header">
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+        <h2>Medical Stock Management System</h2>
+    </div>
+    <nav class="navbar">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#officials">Officials</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+            <li class="auth-buttons">
+                <a href="/Login Form" class="btn btn-login">Login</a>
+                <a href="/Account Register" class="btn btn-register">Register</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Welcome to <span>MediCare!</span></h1>
+    </div>
+</section>
+
+<!-- ABOUT SECTION -->
+<section class="about" id="about">
+    <div class="container">
+        <h2 class="section-title">About Us</h2>
+        <div class="about-content">
+            <div class="about-image">
+                <img src="{{ url_for('static', filename='images/RHU PIC.jpg') }}" alt="About">
+            </div>
+            <div class="about-text">
+                <h3>We care about your health and inventory</h3>
+                <p>MediCare is dedicated to providing an efficient and organized system for managing medical supplies and stock.</p>
+                <div class="mission-vision">
+                    <div class="mission">
+                        <h4>Our Mission</h4>
+                        <p>To deliver a reliable inventory system that supports healthcare providers.</p>
+                    </div>
+                    <div class="vision">
+                        <h4>Our Vision</h4>
+                        <p>To be the leading system in medical stock management.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- OFFICIALS SECTION -->
+<section class="officials" id="officials">
+    <div class="container">
+        <h2 class="section-title">Our Officials</h2>
+        <div class="officials-grid">
+            <div class="official-card">
+                <div class="official-image">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="official-info">
+                    <h3>Dr. Juan Dela Cruz</h3>
+                    <p>Medical Director</p>
+                </div>
+            </div>
+            <div class="official-card">
+                <div class="official-image">
+                    <i class="fas fa-user-nurse"></i>
+                </div>
+                <div class="official-info">
+                    <h3>Maria Santos</h3>
+                    <p>Head Nurse</p>
+                </div>
+            </div>
+            <div class="official-card">
+                <div class="official-image">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="official-info">
+                    <h3>Engr. Roberto Reyes</h3>
+                    <p>System Admin</p>
+                </div>
+            </div>
+            <div class="official-card">
+                <div class="official-image">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="official-info">
+                    <h3>Atty. Cristina Lim</h3>
+                    <p>Legal Advisor</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section class="contact" id="contact">
+    <div class="container">
+        <h2 class="section-title">Contact Us</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>Address</h4>
+                        <p>RHU Building, Municipal Compound</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>Phone</h4>
+                        <p>+63 123 456 7890</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>Email</h4>
+                        <p>contact@medicare.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-logo">MediCare</div>
+        <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="#about">About</a>
+            <a href="#officials">Officials</a>
+            <a href="#contact">Contact Us</a>
+        </div>
+        <p class="copyright">&copy; 2026 MediCare. All rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

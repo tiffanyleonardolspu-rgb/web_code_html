@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications | MediCare</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar_design.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/staff_dashboard.css') }}">
+
+    <style>
+        .notif-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .notif-count {
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 8px 18px;
+            border: none;
+            border-radius: 20px;
+            background: #f1f1f1;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #e57373;
+            color: white;
+        }
+
+        .notif-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .notif-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 5px solid;
+        }
+
+        .notif-card.lowstock {
+            border-left-color: #ff4757;
+        }
+
+        .notif-card.expiry {
+            border-left-color: #ffa502;
+        }
+
+        .notif-card.order {
+            border-left-color: #3742fa;
+        }
+
+        .notif-card.system {
+            border-left-color: #2f3542;
+        }
+
+        .notif-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .notif-message {
+            color: #555;
+            margin-bottom: 12px;
+        }
+
+        .notif-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .type-tag {
+            padding: 4px 10px;
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .type-tag.lowstock { background: #ff4757; }
+        .type-tag.expiry { background: #ffa502; }
+        .type-tag.order { background: #3742fa; }
+        .type-tag.system { background: #2f3542; }
+
+        .priority-tag {
+            padding: 4px 10px;
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .priority-tag.urgent { background: #ff4757; }
+        .priority-tag.high { background: #ff7f50; }
+        .priority-tag.medium { background: #ffa502; }
+        .priority-tag.low { background: #70a1ff; }
+
+        .notif-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 10px;
+        }
+
+        .notif-actions img {
+            width: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo" class="logo" />
+            <h2>MediCare | Admin</h2>
+            <p>Inventory System</p>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('admin_account') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('medicine_tab') }}">Medicine</a></li>
+                <li class="active"><a href="{{ url_for('notif_tab') }}">Notification</a></li>
+                <li><a href="{{ url_for('staff_account') }}">Staff</a></li>
+                <li><a href="{{ url_for('history_tab') }}">History</a></li>
+                <li><a href="{{ url_for('trash_tab') }}">Trash</a></li>
+                <li><a href="{{ url_for('generate_invite') }}">Generate Invite Code</a></li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button onclick="return confirm('Are you sure you want to log out?')">
+                <a href="{{ url_for('logout') }}">Log out</a>
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="notif-header">
+            <h1>Notifications</h1>
+            <div class="notif-count">5</div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="changeTab(this, 'all')">All</button>
+            <button class="tab-btn" onclick="changeTab(this, 'unread')">Unread</button>
+            <button class="tab-btn" onclick="changeTab(this, 'lowstock')">Low Stock</button>
+            <button class="tab-btn" onclick="changeTab(this, 'expiry')">Expiry Alerts</button>
+            <button class="tab-btn" onclick="changeTab(this, 'orders')">Orders</button>
+            <button class="tab-btn" onclick="changeTab(this, 'system')">System</button>
+            <button class="tab-btn" onclick="changeTab(this, 'archived')">Archived</button>
+        </div>
+
+        <div class="notif-list">
+            <div class="notif-card lowstock" data-type="lowstock unread">
+                <div class="notif-title">Critical Stock Level</div>
+                <div class="notif-message">Bandages are critically low (Current: 5, Minimum: 25)</div>
+                <div class="notif-meta">
+                    <span class="type-tag lowstock">LOW STOCK</span>
+                    <span>1/14/2024</span>
+                    <span class="priority-tag urgent">URGENT</span>
+                    <div class="notif-actions">
+                        <img src="{{ url_for('static', filename='images/icon-read.png') }}" alt="Mark as read" title="Mark as read">
+                        <img src="{{ url_for('static', filename='images/icon-archive.png') }}" alt="Archive" title="Archive">
+                        <img src="{{ url_for('static', filename='images/icon-delete.png') }}" alt="Delete" title="Delete">
+                    </div>
+                </div>
+            </div>
+
+            <div class="notif-card lowstock" data-type="lowstock">
+                <div class="notif-title">Low Stock Alert</div>
+                <div class="notif-message">Paracetamol Syrup is below minimum stock level (Current: 8, Minimum: 10)</div>
+                <div class="notif-meta">
+                    <span class="type-tag lowstock">LOW STOCK</span>
+                    <span>1/15/2024</span>
+                    <span class="priority-tag high">HIGH</span>
+                    <div class="notif-actions">
+                        <img src="{{ url_for('static', filename='images/icon-read.png') }}" alt="Mark as read" title="Mark as read">
+                        <img src="{{ url_for('static', filename='images/icon-archive.png') }}" alt="Archive" title="Archive">
+                        <img src="{{ url_for('static', filename='images/icon-delete.png') }}" alt="Delete" title="Delete">
+                    </div>
+                </div>
+            </div>
+
+            <div class="notif-card expiry" data-type="expiry">
+                <div class="notif-title">Expiry Date Approaching</div>
+                <div class="notif-message">Medical Gloves (Batch #GLV-2024-01) expires in 30 days</div>
+                <div class="notif-meta">
+                    <span class="type-tag expiry">EXPIRY ALERT</span>
+                    <span>1/15/2024</span>
+                    <span class="priority-tag medium">MEDIUM</span>
+                    <div class="notif-actions">
+                        <img src="{{ url_for('static', filename='images/icon-read.png') }}" alt="Mark as read" title="Mark as read">
+                        <img src="{{ url_for('static', filename='images/icon-archive.png') }}" alt="Archive" title="Archive">
+                        <img src="{{ url_for('static', filename='images/icon-delete.png') }}" alt="Delete" title="Delete">
+                    </div>
+                </div>
+            </div>
+
+            <div class="notif-card system" data-type="system">
+                <div class="notif-title">System Maintenance</div>
+                <div class="notif-message">Scheduled maintenance this Saturday 2-4 AM. System may be unavailable.</div>
+                <div class="notif-meta">
+                    <span class="type-tag system">SYSTEM ALERT</span>
+                    <span>1/14/2024</span>
+                    <span class="priority-tag medium">MEDIUM</span>
+                    <div class="notif-actions">
+                        <img src="{{ url_for('static', filename='images/icon-read.png') }}" alt="Mark as read" title="Mark as read">
+                        <img src="{{ url_for('static', filename='images/icon-archive.png') }}" alt="Archive" title="Archive">
+                        <img src="{{ url_for('static', filename='images/icon-delete.png') }}" alt="Delete" title="Delete">
+                    </div>
+                </div>
+            </div>
+
+            <div class="notif-card order" data-type="orders">
+                <div class="notif-title">Order #ORD001 Completed</div>
+                <div class="notif-message">Your order has been processed and is ready for pickup</div>
+                <div class="notif-meta">
+                    <span class="type-tag order">ORDER UPDATE</span>
+                    <span>1/14/2024</span>
+                    <span class="priority-tag low">LOW</span>
+                    <div class="notif-actions">
+                        <img src="{{ url_for('static', filename='images/icon-read.png') }}" alt="Mark as read" title="Mark as read">
+                        <img src="{{ url_for('static', filename='images/icon-archive.png') }}" alt="Archive" title="Archive">
+                        <img src="{{ url_for('static', filename='images/icon-delete.png') }}" alt="Delete" title="Delete">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+function changeTab(button, type) {
+    // Remove active class from all buttons
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    // Add active class to clicked button
+    button.classList.add('active');
+
+    // Show/hide notifications based on type
+    const cards = document.querySelectorAll('.notif-card');
+    cards.forEach(card => {
+        if (type === 'all' || card.dataset.type.includes(type)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+// Action icons functionality
+document.querySelectorAll('.notif-actions img').forEach(img => {
+    img.onclick = function() {
+        const action = this.alt.toLowerCase();
+        const card = this.closest('.notif-card');
+        
+        if (action.includes('read')) {
+            card.classList.remove('unread');
+            this.src = "{{ url_for('static', filename='images/icon-read-done.png') }}";
+        } else if (action.includes('archive')) {
+            card.style.display = 'none';
+            alert('Notification archived');
+        } else if (action.includes('delete')) {
+            card.style.display = 'none';
+            alert('Notification deleted');
+        }
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventory System | MediCare</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    display:flex;
+    background:#f5f7fa;
+    height:100vh;
+    overflow:hidden;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:260px;
+    background:#DA6363;
+    color:white;
+    display:flex;
+    flex-direction:column;
+}
+
+.logo{
+    text-align:center;
+    padding:30px 20px;
+}
+
+.logo h1{
+    font-size:42px;
+}
+
+.logo h2{
+    margin-top:10px;
+}
+
+.logo p{
+    color:#ffe3e3;
+    margin-top:6px;
+}
+
+.nav{
+    padding:15px;
+}
+
+.nav button{
+    width:100%;
+    padding:14px;
+    margin-bottom:8px;
+    border:none;
+    border-radius:10px;
+    background:transparent;
+    color:white;
+    text-align:left;
+    cursor:pointer;
+    transition:0.3s;
+    font-size:15px;
+}
+
+.nav button:hover,
+.nav button.active{
+    background:#c0392b;
+}
+
+.sidebar-footer{
+    margin-top:auto;
+    padding:20px;
+    text-align:center;
+}
+
+.logout-btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:white;
+    color:#DA6363;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* MAIN */
+
+.main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+
+/* HEADER */
+
+.header{
+    background:white;
+    padding:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+.header h1{
+    color:#2c3e50;
+}
+
+.top-actions{
+    margin-top:15px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:12px 18px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+    color:white;
+}
+
+.red{
+    background:#DA6363;
+}
+
+.green{
+    background:#2ecc71;
+}
+
+.blue{
+    background:#3498db;
+}
+
+.gray{
+    background:#95a5a6;
+}
+
+/* CONTENT */
+
+.content{
+    flex:1;
+    padding:20px;
+    overflow:auto;
+}
+
+/* SEARCH */
+
+.search-bar{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.search-bar input{
+    flex:1;
+    padding:14px;
+    border:1px solid #ddd;
+    border-radius:10px;
+}
+
+/* TABLE */
+
+.table-container{
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+.table-header{
+    background:#2c3e50;
+    color:white;
+    padding:15px;
+    font-weight:bold;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#f0f0f0;
+    padding:14px;
+    text-align:left;
+    color:#2c3e50;
+}
+
+td{
+    padding:14px;
+    border-bottom:1px solid #eee;
+}
+
+tr:hover{
+    background:#fafafa;
+}
+
+/* STATUS */
+
+.status{
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.restocked{
+    background:#d4f8e8;
+    color:#1e7b48;
+}
+
+.lowstock{
+    background:#ffe5cc;
+    color:#d35400;
+}
+
+/* RFID SCANNER */
+
+.scanner-box{
+    margin-top:25px;
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+.camera{
+    margin-top:15px;
+    height:300px;
+    border-radius:15px;
+    background:black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#00ff00;
+    font-size:20px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+    body{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        width:100%;
+        height:auto;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+    <div class="logo">
+
+        <h1>🏥</h1>
+
+        <h2>RHU Pila</h2>
+
+        <p>MediCare System</p>
+
+    </div>
+
+    <div class="nav">
+
+        <button>🏠 Dashboard</button>
+
+        <button class="active">💊 Inventory</button>
+
+        <button>📦 Restock</button>
+
+        <button>📜 History</button>
+
+        <button>🗑 Archive</button>
+
+    </div>
+
+    <div class="sidebar-footer">
+
+        <p><strong>Jillian Gutierrez</strong></p>
+
+        <p style="margin:5px 0 15px;color:#ffe3e3;">
+            Inventory Manager
+        </p>
+
+        <button class="logout-btn">
+            🚪 Logout
+        </button>
+
+    </div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>Inventory Management System</h1>
+
+        <div class="top-actions">
+
+            <button class="btn red">
+                ➕ Add Item
+            </button>
+
+            <button class="btn green">
+                📷 Scan RFID
+            </button>
+
+            <button class="btn blue">
+                📄 Export PDF
+            </button>
+
+            <button class="btn gray">
+                ⟳ Refresh
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+        <!-- SEARCH -->
+
+        <div class="search-bar">
+
+            <input type="text" placeholder="Search item, RFID, category...">
+
+            <button class="btn red">
+                Search
+            </button>
+
+        </div>
+
+        <!-- TABLE -->
+
+        <div class="table-container">
+
+            <div class="table-header">
+                📋 Inventory Items
+            </div>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Item Name</th>
+                        <th>Stock</th>
+                        <th>RFID</th>
+                        <th>Category</th>
+                        <th>Expiration</th>
+                        <th>Status</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>Paracetamol 500mg</td>
+
+                        <td>150 pcs</td>
+
+                        <td>RFID001</td>
+
+                        <td>Essential Medication - Adults</td>
+
+                        <td>2026-12-31</td>
+
+                        <td>
+                            <span class="status restocked">
+                                Restocked
+                            </span>
+                        </td>
+
+                        <td>
+                            <button class="btn red">
+                                Restock
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Cough Syrup</td>
+
+                        <td>25 pcs</td>
+
+                        <td>RFID004</td>
+
+                        <td>Essential Medication - Adults</td>
+
+                        <td>2026-09-10</td>
+
+                        <td>
+                            <span class="status lowstock">
+                                Low Stock
+                            </span>
+                        </td>
+
+                        <td>
+                            <button class="btn red">
+                                Restock
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>N95 Face Mask</td>
+
+                        <td>500 pcs</td>
+
+                        <td>RFID003</td>
+
+                        <td>Personal Protection</td>
+
+                        <td>2027-01-20</td>
+
+                        <td>
+                            <span class="status restocked">
+                                Restocked
+                            </span>
+                        </td>
+
+                        <td>
+                            <button class="btn red">
+                                Restock
+                            </button>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- RFID SCANNER -->
+
+        <div class="scanner-box">
+
+            <h2>📷 RFID / Barcode Scanner</h2>
+
+            <p style="margin-top:8px;color:#7f8c8d;">
+                Position barcode in front of camera to auto scan inventory items.
+            </p>
+
+            <div class="camera">
+                CAMERA FEED
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

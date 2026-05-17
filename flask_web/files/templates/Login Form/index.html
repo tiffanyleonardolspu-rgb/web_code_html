@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="static/images/favicon.ico">
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #f3f3f3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.container {
+  margin-top: 50px;
+  width: 380px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-card {
+  background: #fff;
+  padding: 50px 40px;
+  margin-bottom: 50px;
+  border-radius: 15px;
+  box-shadow: 0 -5px 55px rgba(0, 0, 0, 0.08);
+  width: 380px;
+  text-align: center;
+  border-top: 8px solid #e57373;
+}
+
+.logo {
+  width: 60px;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 1.6rem;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  text-align: left;
+  margin: 10px 0 5px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  background-color: #fff;
+}
+
+.input-group input {
+  border: none;
+  outline: none;
+  flex: 1;
+  background: transparent;
+  font-size: 0.95rem;
+}
+
+.input-group img {
+  width: 20px;
+  cursor: pointer;
+}
+
+input:focus {
+  border: 1px solid #f7a8a8;
+  box-shadow: 0 0 5px rgba(255,150,150,0.5);
+}
+
+.options {
+  display: flex;
+  font-size: 14px;
+  margin-bottom: 10px;
+  translate: 180px;
+  padding: none;
+  margin-top: none;
+  cursor: pointer;
+}
+
+.options a {
+  color: #e57373;
+  text-decoration: none;
+}
+
+.login-btn {
+  background: #f28b82;
+  border: none;
+  color: #fff;
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background: #e57373;
+}
+
+.divider {
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+  color: #888;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  position: absolute;
+  width: 40%;
+  height: 1px;
+  background: #ddd;
+  top: 50%;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+.g_id_signin {
+  padding: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+  border-radius: 10px;
+}
+
+.invite {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.invite a {
+  color: #e57373;
+  text-decoration: none;
+  font-weight: 500;
+}
+.popup {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #2ecc71;
+    color: white;
+    padding: 14px 22px;
+    border-radius: 10px;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.4s ease;
+}
+
+.popup.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+  </style>
+</head>
+<body>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div id="popup" class="popup {{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+  <div class="container">
+    <div class="login-card">
+      <img style="width: 50px" src="static/images/Logo.png" alt="Logo">
+
+      <h2>Welcome to MediCare!</h2>
+      <p class="subtitle">Log in to your account</p>
+
+      <form action="/login" method="POST">
+        <label>Email Address or Username</label>
+        <div class="input-group">
+          <input name="email" type="text" placeholder="Enter your email or username" required>
+        </div>
+
+        <label>Password</label>
+        <div class="input-group">
+          <input name="accountpassword" id="wordpass" type="password" placeholder="Enter your password" required>
+          <img id="mata" style="width: 20px; cursor: pointer" src="static/images/eyeicon close.png">
+        </div>
+
+        <div class="options">
+          <a href="#">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="login-btn">Log in</button>
+      </form>
+
+      <div class="divider">
+        <span>Or continue with</span>
+      </div>
+      
+            <div id="g_id_onload"
+                 data-client_id="326101110012-lltbebckrjnq771470r33ql9r0c8onej.apps.googleusercontent.com"
+                 data-callback="handleGoogleLogin"
+                 data-auto_prompt="false">
+            </div>
+            <div class="g_id_signin"
+                 data-type="standard"
+                 data-size="large"
+                 data-theme="outline"
+                 data-text="sign_in_with"
+                 data-shape="rectangular"
+                 data-logo_alignment="left">
+            </div>
+
+      <p class="invite">Have an invite code? <a href="/Account Register">Click here</a></p>
+
+    </div>
+  </div>
+
+<script>
+  let eyeicon = document.getElementById("mata");
+  let password = document.getElementById("wordpass");
+
+  eyeicon.onclick = function(){
+    if(password.type == "password"){
+      password.type = "text";
+      eyeicon.src="static/images/eyeicon open.png";
+    }
+    else{
+      password.type = "password";
+      eyeicon.src="static/images/eyeicon close.png";
+    }
+  }
+
+    // Handle Google Login Callback
+        function handleGoogleLogin(response) {
+            // Send the ID token to your Flask backend for verification
+            fetch('/google-login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ token: response.credential })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    window.location.href = data.redirect; // Redirect to Admin/Staff account
+                } else {
+                    alert(data.message); // Show error message from backend
+                }
+            })
+            .catch(error => {
+                console.error('Error during Google login:', error);
+                alert('An error occurred during Google login. Please try again.');
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const popup = document.querySelector('.popup');
+            if (popup) {
+                popup.classList.add('show');
+                setTimeout(() => {
+                    popup.classList.remove('show');
+                    setTimeout(() => popup.remove(), 600);
+                }, 3000);
+            }
+        });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>MediCare Staff Dashboard | Inventory Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* App Container */
+        .app-container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /* Sidebar - Gradient Red Theme */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(135deg, #ff8a7a 0%, #ff5c46 100%);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            box-shadow: 2px 0 12px rgba(0,0,0,0.08);
+            z-index: 10;
+            overflow-y: auto;
+        }
+
+        .logo-area {
+            text-align: center;
+            padding: 30px 20px 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
+
+        .logo-area h2 {
+            font-weight: 700;
+            font-size: 22px;
+            color: white;
+            letter-spacing: 0.5px;
+        }
+
+        .logo-area p {
+            font-size: 11px;
+            color: #ffdddd;
+            margin-top: 4px;
+        }
+
+        .nav-menu {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 0 12px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: white;
+            background: transparent;
+            position: relative;
+        }
+
+        .nav-item i {
+            width: 24px;
+            font-size: 1.2rem;
+        }
+
+        .nav-item.active {
+            background: #cc3a28;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .nav-item:hover:not(.active) {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .notification-dot {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            background: #e74c3c;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px #ff5c46;
+        }
+
+        .logout-btn {
+            margin: 20px 16px 30px 16px;
+            background: white;
+            color: #ff5c46;
+            border: none;
+            border-radius: 40px;
+            padding: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #ffe5e2;
+            transform: translateY(-1px);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            background: #f5f7fa;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: white;
+            padding: 16px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e9ecef;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .profile-wrapper {
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f8f9fa;
+            padding: 6px 16px 6px 10px;
+            border-radius: 50px;
+            transition: 0.2s;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            background: #DA6363;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            color: white;
+        }
+
+        .username {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .dropdown-arrow {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 55px;
+            right: 0;
+            background: white;
+            width: 200px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            z-index: 200;
+            border: 1px solid #eef2f6;
+            overflow: hidden;
+            display: none;
+        }
+
+        .profile-dropdown.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: #2c3e50;
+            transition: 0.1s;
+            cursor: pointer;
+        }
+
+        .dropdown-item:hover {
+            background: #fef2f0;
+        }
+
+        /* Page Container */
+        .page-container {
+            padding: 24px 28px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* Dashboard Styles */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            border-radius: 24px;
+            padding: 18px 12px;
+            text-align: center;
+            transition: transform 0.1s;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .stat-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .stat-number {
+            font-size: 34px;
+            font-weight: 800;
+            margin: 6px 0;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .divider {
+            height: 2px;
+            background: #DA6363;
+            width: 100%;
+            margin: 8px 0 20px 0;
+        }
+
+        .two-columns {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .col-card {
+            flex: 1;
+            background: white;
+            border-radius: 24px;
+            padding: 20px;
+            border: 1px solid #ebedf0;
+        }
+
+        .card-header {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid #DA6363;
+            padding-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .category-row, .status-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .category-name, .status-label {
+            font-size: 13px;
+            font-weight: 500;
+            min-width: 150px;
+        }
+
+        .bar-bg {
+            flex: 1;
+            height: 8px;
+            background: #edf2f7;
+            border-radius: 10px;
+            margin: 0 12px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: #DA6363;
+            border-radius: 10px;
+            width: 0%;
+        }
+
+        .category-count, .status-count {
+            font-weight: 700;
+            color: #DA6363;
+            min-width: 40px;
+            text-align: right;
+        }
+
+        .activity-table-wrapper {
+            background: white;
+            border-radius: 24px;
+            padding: 8px 0 16px 0;
+            border: 1px solid #eef2f6;
+            overflow-x: auto;
+        }
+
+        .recent-header {
+            font-weight: 700;
+            font-size: 18px;
+            padding: 18px 20px 8px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .activity-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .activity-table th {
+            text-align: left;
+            padding: 14px 16px;
+            background: #DA6363;
+            color: white;
+            font-weight: 600;
+        }
+
+        .activity-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-received { background: #e8f5e9; color: #27ae60; }
+        .badge-cancelled { background: #ffebee; color: #e74c3c; }
+        .badge-sent { background: #e3f2fd; color: #2196f3; }
+        .badge-pending { background: #fff3e0; color: #e67e22; }
+        .badge-updated { background: #f3e5f5; color: #9c27b0; }
+
+        /* Notification Panel */
+        .notification-card {
+            background: white;
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 10px;
+            border-left: 4px solid;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .notification-card:hover { transform: translateX(4px); }
+        .expired-card { border-left-color: #e74c3c; background: #ffebee; }
+        .expiring-card { border-left-color: #f39c12; background: #fff8e1; }
+        .lowstock-card { border-left-color: #e67e22; background: #fff3e0; }
+        .pending-card { border-left-color: #8e44ad; background: #f3e5f5; }
+
+        /* Inventory View */
+        .inventory-filter-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .category-chip {
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 13px;
+            cursor: pointer;
+            background: white;
+            border: 1px solid #ddd;
+            transition: 0.2s;
+        }
+        .category-chip.active {
+            background: #DA6363;
+            color: white;
+            border-color: #DA6363;
+        }
+        .inventory-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .inventory-table th {
+            background: #DA6363;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        .inventory-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .stock-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .stock-low { background: #fff3e0; color: #e67e22; }
+        .stock-restocked { background: #e8f5e9; color: #27ae60; }
+        .stock-expired { background: #ffebee; color: #e74c3c; }
+
+        .placeholder-message {
+            background: white;
+            border-radius: 24px;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        @media (max-width: 1000px) {
+            .sidebar { width: 80px; }
+            .logo-area p, .nav-item span:not(i) { display: none; }
+            .nav-item { justify-content: center; }
+            .logout-btn span:last-child { display: none; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-area">
+            <div class="logo-icon">🏥</div>
+            <h2>MediCare</h2>
+            <p>Inventory System</p>
+        </div>
+        <div class="nav-menu">
+            <div class="nav-item active" data-view="dashboard">
+                <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+            </div>
+            <div class="nav-item" data-view="medicine">
+                <i class="fas fa-capsules"></i> <span>Medicine</span>
+            </div>
+            <div class="nav-item" data-view="notification">
+                <i class="fas fa-bell"></i> <span>Notification</span>
+                <span class="notification-dot" id="sidebarNotifDot" style="display: none;"></span>
+            </div>
+            <div class="nav-item" data-view="staff">
+                <i class="fas fa-users"></i> <span>Staff</span>
+            </div>
+            <div class="nav-item" data-view="history">
+                <i class="fas fa-history"></i> <span>History</span>
+            </div>
+            <div class="nav-item" data-view="archive">
+                <i class="fas fa-trash-alt"></i> <span>Archive</span>
+            </div>
+        </div>
+        <div class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="page-title" id="pageTitle">🏠 Dashboard</div>
+            <div class="profile-wrapper" id="profileTrigger">
+                <div class="avatar" id="avatarInitial">JL</div>
+                <span class="username" id="usernameDisplay">Jillian Leonardo</span>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="dropdown-item" id="viewProfileBtn">
+                        <i class="fas fa-user-circle"></i> View Profile
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-container" id="pageContainer">
+            <div id="dynamicView">Loading...</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ========== DATA MODELS (mirroring Python backend) ==========
+    const MAIN_CATEGORIES = [
+        ["Essential Medication", "💊"],
+        ["Personal Protection", "🛡️"],
+        ["First Aid Tool", "🚑"],
+        ["Wound Care Items", "🩹"],
+        ["Diagnostic Tools", "🔬"],
+        ["Others", "📦"]
+    ];
+
+    // Inventory data matching the original INITIAL_INVENTORY_DATA
+    let inventoryData = [
+        { name: "Paracetamol 500mg", category: "Essential Medication - 💊", stock: 45, activity: "Restocked", expiration: "2025-12-20", date_modified: "2025-04-10" },
+        { name: "Face Mask (KN95)", category: "Personal Protection - 🛡️", stock: 12, activity: "Low Stock", expiration: "2026-05-01", date_modified: "2025-04-05" },
+        { name: "Adhesive Bandages", category: "First Aid Tool - 🚑", stock: 210, activity: "Restocked", expiration: "2028-01-15", date_modified: "2025-04-01" },
+        { name: "Antiseptic Wipes", category: "Wound Care Items - 🩹", stock: 8, activity: "Low Stock", expiration: "2025-10-10", date_modified: "2025-03-28" },
+        { name: "Stethoscope", category: "Diagnostic Tools - 🔬", stock: 4, activity: "Completed", expiration: "2030-01-01", date_modified: "2025-03-20" },
+        { name: "Gauze Roll", category: "Wound Care Items - 🩹", stock: 55, activity: "Restocked", expiration: "2027-08-22", date_modified: "2025-04-12" },
+        { name: "Digital Thermometer", category: "Diagnostic Tools - 🔬", stock: 0, activity: "Expired", expiration: "2023-12-01", date_modified: "2025-03-15" },
+        { name: "Examination Gloves", category: "Personal Protection - 🛡️", stock: 300, activity: "Restocked", expiration: "2026-03-18", date_modified: "2025-04-08" },
+        { name: "First Aid Kit", category: "First Aid Tool - 🚑", stock: 18, activity: "Completed", expiration: "2025-11-30", date_modified: "2025-04-02" },
+        { name: "Saline Solution", category: "Essential Medication - 💊", stock: 22, activity: "Low Stock", expiration: "2024-12-12", date_modified: "2025-03-25" }
+    ];
+
+    // Activity log entries (matching _load_activity_log)
+    let activityLog = [
+        { date: "2025-04-15 14:30:00", action: "✅ Jillian received restock · Paracetamol 500mg", tag: "received" },
+        { date: "2025-04-14 09:15:00", action: "📤 Jillian sent restock_RF1002.pdf · Cough Syrup", tag: "sent" },
+        { date: "2025-04-13 11:45:00", action: "🔔 Jillian requested restock · Face Mask (KN95)", tag: "pending" },
+        { date: "2025-04-12 16:20:00", action: "✏️ Jillian updated · Digital Thermometer", tag: "updated" },
+        { date: "2025-04-10 10:00:00", action: "❌ Jillian cancelled restock · Antiseptic Wipes", tag: "cancelled" }
+    ];
+
+    let pendingRequestsCount = 2;
+
+    function getNotifications() {
+        let notifs = [];
+        const today = new Date();
+        for (let item of inventoryData) {
+            const expDate = new Date(item.expiration);
+            const daysDiff = Math.ceil((expDate - today) / (1000 * 60 * 60 * 24));
+            if (expDate < today) {
+                notifs.push({ type: "expired", message: `🔴 Jillian · ${item.name} is expired (${item.expiration})` });
+            } else if (daysDiff <= 30 && daysDiff > 0) {
+                notifs.push({ type: "expiring", message: `🟡 Jillian · ${item.name} expires soon (${item.expiration})` });
+            }
+            if (item.activity === "Low Stock") {
+                notifs.push({ type: "lowstock", message: `🟠 Jillian · ${item.name} is low stock (${item.stock} pcs)` });
+            }
+        }
+        if (pendingRequestsCount > 0) {
+            notifs.push({ type: "pending", message: `🔔 ${pendingRequestsCount} pending restock request(s) awaiting action` });
+        }
+        return notifs;
+    }
+
+    // Helper functions
+    function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'})[m]); }
+
+    // ========== RENDER FUNCTIONS ==========
+    function renderDashboard() {
+        const total = inventoryData.length;
+        const lowStock = inventoryData.filter(i => i.activity === "Low Stock").length;
+        const expired = inventoryData.filter(i => i.activity === "Expired").length;
+        const restocked = inventoryData.filter(i => i.activity === "Restocked").length;
+        
+        let statsHtml = `<div class="stats-grid">`;
+        const cards = [
+            { icon: "📦", label: "Total Items", value: total, color: "#DA6363" },
+            { icon: "⚠️", label: "Low Stock", value: lowStock, color: "#e67e22" },
+            { icon: "❌", label: "Expired", value: expired, color: "#e74c3c" },
+            { icon: "✅", label: "Restocked", value: restocked, color: "#27ae60" },
+            { icon: "🔔", label: "Pending Requests", value: pendingRequestsCount, color: "#8e44ad" }
+        ];
+        cards.forEach(c => {
+            statsHtml += `<div class="stat-card" style="background: ${c.color}">
+                <div class="stat-icon">${c.icon}</div>
+                <div class="stat-number">${c.value}</div>
+                <div class="stat-label">${c.label}</div>
+            </div>`;
+        });
+        statsHtml += `</div>`;
+
+        // Category breakdown
+        let catHtml = `<div class="col-card"><div class="card-header"><i class="fas fa-chart-pie"></i> 📊 Items by Category</div>`;
+        MAIN_CATEGORIES.forEach(cat => {
+            const catName = cat[0], icon = cat[1];
+            const count = inventoryData.filter(i => i.category.includes(catName)).length;
+            const pct = (count / Math.max(total, 1)) * 100;
+            catHtml += `<div class="category-row">
+                <span class="category-name">${icon} ${catName}</span>
+                <div class="bar-bg"><div class="bar-fill" style="width: ${pct}%;"></div></div>
+                <span class="category-count">${count}</span>
+            </div>`;
+        });
+        catHtml += `</div>`;
+
+        // Stock status
+        let statusHtml = `<div class="col-card"><div class="card-header"><i class="fas fa-chart-line"></i> 📈 Stock Status Overview</div>`;
+        const statuses = [["Restocked", "#27ae60"], ["Low Stock", "#e67e22"], ["Expired", "#e74c3c"], ["Completed", "#3498db"]];
+        statuses.forEach(([status, color]) => {
+            const count = inventoryData.filter(i => i.activity === status).length;
+            const pct = (count / Math.max(total, 1)) * 100;
+            statusHtml += `<div class="status-row">
+                <i class="fas fa-circle" style="color: ${color}; font-size: 12px;"></i>
+                <span class="status-label">${status}</span>
+                <div class="bar-bg"><div class="bar-fill" style="background: ${color}; width: ${pct}%;"></div></div>
+                <span class="status-count">${count}</span>
+            </div>`;
+        });
+        statusHtml += `</div>`;
+
+        // Activity table
+        let tableRows = '';
+        const tagLabels = { received: "✅ Received", cancelled: "❌ Cancelled", sent: "📤 Sent", pending: "🔔 Pending", updated: "✏️ Updated" };
+        activityLog.forEach(log => {
+            const badgeClass = `badge-${log.tag}`;
+            tableRows += `<tr>
+                <td>${log.date.substring(0, 16)}</td>
+                <td>${escapeHtml(log.action)}</td>
+                <td><span class="badge ${badgeClass}">${tagLabels[log.tag] || log.tag}</span></td>
+            </tr>`;
+        });
+        const tableHtml = `<div class="activity-table-wrapper">
+            <div class="recent-header"><i class="fas fa-clock"></i> 🕒 Recent Activity</div>
+            <table class="activity-table">
+                <thead><tr><th>Date & Time</th><th>Activity</th><th>Status</th></tr></thead>
+                <tbody>${tableRows || '<tr><td colspan="3">No activity yet</td></tr>'}</tbody>
+            </table>
+        </div>`;
+
+        document.getElementById('dynamicView').innerHTML = statsHtml + `<div class="divider"></div>` + 
+            `<div class="two-columns">${catHtml}${statusHtml}</div>` + tableHtml;
+    }
+
+    function renderInventory() {
+        let filterHtml = `<div class="inventory-filter-bar">`;
+        MAIN_CATEGORIES.forEach(cat => {
+            filterHtml += `<div class="category-chip" data-cat="${cat[0]}">${cat[1]} ${cat[0]}</div>`;
+        });
+        filterHtml += `</div>`;
+
+        let tableRows = '';
+        inventoryData.forEach(item => {
+            let stockClass = item.activity === "Low Stock" ? "stock-low" : (item.activity === "Expired" ? "stock-expired" : "stock-restocked");
+            tableRows += `<tr>
+                <td>${escapeHtml(item.name)}</td>
+                <td>${escapeHtml(item.category.split(' - ')[0])}</td>
+                <td>${item.stock} pcs</td>
+                <td><span class="stock-badge ${stockClass}">${item.activity}</span></td>
+                <td>${item.expiration}</td>
+            </tr>`;
+        });
+
+        document.getElementById('dynamicView').innerHTML = `
+            <div style="background: white; border-radius: 20px; padding: 20px;">
+                <h3 style="margin-bottom: 16px;">💊 Medicine Inventory</h3>
+                ${filterHtml}
+                <div style="overflow-x: auto;">
+                    <table class="inventory-table">
+                        <thead><tr><th>Item Name</th><th>Category</th><th>Stock</th><th>Status</th><th>Expiration</th></tr></thead>
+                        <tbody>${tableRows}</tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+        document.querySelectorAll('.category-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                const cat = chip.dataset.cat;
+                const filtered = inventoryData.filter(i => i.category.includes(cat));
+                let filteredRows = '';
+                filtered.forEach(item => {
+                    let sc = item.activity === "Low Stock" ? "stock-low" : (item.activity === "Expired" ? "stock-expired" : "stock-restocked");
+                    filteredRows += `<tr><td>${escapeHtml(item.name)}</td><td>${escapeHtml(item.category.split(' - ')[0])}</td><td>${item.stock} pcs</td><td><span class="stock-badge ${sc}">${item.activity}</span></td><td>${item.expiration}</td></tr>`;
+                });
+                document.querySelector('.inventory-table tbody').innerHTML = filteredRows;
+                document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+            });
+        });
+        if(document.querySelector('.category-chip')) document.querySelector('.category-chip').classList.add('active');
+    }
+
+    function renderNotifications() {
+        const notifs = getNotifications();
+        let html = `<div style="background: white; border-radius: 20px; padding: 20px;">
+            <h3 style="margin-bottom: 16px;">🔔 Notifications</h3>
+            <div style="margin-bottom: 20px;"><span style="background: #e74c3c; color:white; padding: 4px 12px; border-radius: 30px;">${notifs.length} alert(s)</span></div>`;
+        if (notifs.length === 0) {
+            html += `<div class="placeholder-message"><i class="fas fa-bell-slash"></i><h3>No notifications</h3><p>Everything looks good!</p></div>`;
+        } else {
+            notifs.forEach(n => {
+                let cardClass = '';
+                if (n.type === 'expired') cardClass = 'expired-card';
+                else if (n.type === 'expiring') cardClass = 'expiring-card';
+                else if (n.type === 'lowstock') cardClass = 'lowstock-card';
+                else cardClass = 'pending-card';
+                html += `<div class="notification-card ${cardClass}">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 20px;">●</span>
+                        <span>${escapeHtml(n.message)}</span>
+                    </div>
+                </div>`;
+            });
+        }
+        html += `</div>`;
+        document.getElementById('dynamicView').innerHTML = html;
+    }
+
+    function renderStaff() {
+        document.getElementById('dynamicView').innerHTML = `<div class="placeholder-message">
+            <i class="fas fa-users" style="font-size: 48px; color: #DA6363;"></i>
+            <h3>Staff Management</h3>
+            <p>Staff management is available in the admin inventory system.</p>
+        </div>`;
+        alert("Staff management is available in the admin inventory system.");
+    }
+
+    function renderHistory() {
+        let rows = '';
+        activityLog.forEach(log => {
+            rows += `<tr><td>${log.date}</td><td>${escapeHtml(log.action)}</td></tr>`;
+        });
+        document.getElementById('dynamicView').innerHTML = `<div class="activity-table-wrapper">
+            <div class="recent-header"><i class="fas fa-history"></i> 📜 Full Activity History</div>
+            <table class="activity-table">
+                <thead><tr><th>Timestamp</th><th>Action</th></tr></thead>
+                <tbody>${rows || '<tr><td colspan="2">No history</td></tr>'}</tbody>
+            </table>
+        </div>`;
+    }
+
+    function renderArchive() {
+        document.getElementById('dynamicView').innerHTML = `<div class="placeholder-message">
+            <i class="fas fa-trash-alt" style="font-size: 48px; color: #DA6363;"></i>
+            <h3>Archive</h3>
+            <p>Archive feature coming soon. Deleted items will appear here.</p>
+        </div>`;
+        alert("Archive feature coming soon.");
+    }
+
+    // ========== NAVIGATION ==========
+    let currentView = 'dashboard';
+
+    function updateNav(activeIndex) {
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach((item, idx) => {
+            if (idx === activeIndex) item.classList.add('active');
+            else item.classList.remove('active');
+        });
+    }
+
+    function setView(view) {
+        currentView = view;
+        const titles = { dashboard: "🏠 Dashboard", medicine: "💊 Medicine", notification: "🔔 Notifications", staff: "👥 Staff", history: "📜 History", archive: "📦 Archive" };
+        document.getElementById('pageTitle').innerHTML = titles[view] || "Dashboard";
+        
+        if (view === 'dashboard') { updateNav(0); renderDashboard(); }
+        else if (view === 'medicine') { updateNav(1); renderInventory(); }
+        else if (view === 'notification') { updateNav(2); renderNotifications(); }
+        else if (view === 'staff') { updateNav(3); renderStaff(); }
+        else if (view === 'history') { updateNav(4); renderHistory(); }
+        else if (view === 'archive') { updateNav(5); renderArchive(); }
+    }
+
+    // ========== PROFILE DROPDOWN & LOGOUT ==========
+    function initProfileDropdown() {
+        const trigger = document.getElementById('profileTrigger');
+        const dropdown = document.getElementById('profileDropdown');
+        let visible = false;
+        trigger.addEventListener('click', (e) => { e.stopPropagation(); visible = !visible; dropdown.classList.toggle('show', visible); });
+        document.addEventListener('click', () => { dropdown.classList.remove('show'); visible = false; });
+        document.getElementById('viewProfileBtn').addEventListener('click', () => {
+            alert("📄 View Profile\n\nUser: Jillian Leonardo\nRole: Staff · Core Member\n\nFull profile management coming soon.");
+            dropdown.classList.remove('show');
+        });
+    }
+
+    function initLogout() {
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to log out?')) {
+                alert("Logged out. Redirecting to login...");
+                window.location.reload();
+            }
+        });
+    }
+
+    // ========== UPDATE NOTIFICATION DOT ==========
+    function updateNotificationDot() {
+        const notifs = getNotifications();
+        const dot = document.getElementById('sidebarNotifDot');
+        if (dot) dot.style.display = notifs.length > 0 ? 'block' : 'none';
+    }
+
+    // ========== INITIALIZE ==========
+    function bindNavEvents() {
+        const navMap = ['dashboard', 'medicine', 'notification', 'staff', 'history', 'archive'];
+        document.querySelectorAll('.nav-item').forEach((item, idx) => {
+            item.addEventListener('click', () => setView(navMap[idx]));
+        });
+    }
+
+    updateNotificationDot();
+    bindNavEvents();
+    initProfileDropdown();
+    initLogout();
+    setView('dashboard');
+</script>
+</body>
+</html>

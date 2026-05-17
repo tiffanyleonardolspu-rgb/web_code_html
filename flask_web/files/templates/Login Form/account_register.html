@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Staff Registration | MediCare System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #fff8f8;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: #fff8f8;
+            border-radius: 12px;
+            margin: 20px auto;
+        }
+        
+        .logo-section {
+            text-align: center;
+            padding: 20px 0 10px;
+        }
+        
+        .logo-circle {
+            width: 70px;
+            height: 70px;
+            background: #e57373;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+        
+        .logo-circle span {
+            font-size: 36px;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            color: #2c3e50;
+            margin-top: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+        
+        /* Step Indicators */
+        .step-indicators {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+            padding: 0 20px;
+        }
+        
+        .step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step-circle {
+            width: 36px;
+            height: 36px;
+            background: #f0d6d6;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            color: #c0392b;
+            margin-bottom: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active .step-circle {
+            background: #e57373;
+            color: white;
+        }
+        
+        .step.completed .step-circle {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .step.completed .step-circle span {
+            display: none;
+        }
+        
+        .step.completed .step-circle::before {
+            content: "✓";
+            font-size: 18px;
+        }
+        
+        .step-label {
+            font-size: 11px;
+            color: #7f8c8d;
+        }
+        
+        .step.active .step-label {
+            color: #e57373;
+            font-weight: bold;
+        }
+        
+        .step.completed .step-label {
+            color: #27ae60;
+        }
+        
+        .progress-bar {
+            position: absolute;
+            top: 18px;
+            left: 50px;
+            right: 50px;
+            height: 3px;
+            background: #f0d6d6;
+            z-index: 1;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #e57373;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        /* Form Styles */
+        .form-step {
+            display: none;
+        }
+        
+        .form-step.active-step {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .required {
+            color: red;
+            font-size: 14px;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #e57373;
+        }
+        
+        .password-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .password-wrapper input {
+            flex: 1;
+        }
+        
+        .toggle-password {
+            padding: 10px 12px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .strength-label {
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 6px;
+        }
+        
+        .suggestion-label {
+            font-size: 11px;
+            color: #7f8c8d;
+            margin-top: 4px;
+            white-space: pre-line;
+        }
+        
+        .field-hint {
+            font-size: 10px;
+            color: #95a5a6;
+            margin-top: 3px;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        
+        .btn-primary {
+            background: #e57373;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .btn-group .btn {
+            flex: 1;
+        }
+        
+        .btn-sm {
+            padding: 8px 16px;
+            width: auto;
+        }
+        
+        .error-message {
+            background: #fee;
+            color: #c0392b;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 13px;
+        }
+        
+        .success-message {
+            background: #efe;
+            color: #27ae60;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 13px;
+        }
+        
+        .otp-row {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .otp-row input {
+            flex: 1;
+        }
+        
+        .otp-status {
+            font-size: 11px;
+            margin-top: 6px;
+            color: #e67e22;
+        }
+        
+        .terms-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 16px 0;
+        }
+        
+        .terms-row input {
+            width: auto;
+        }
+        
+        .terms-row label {
+            display: inline;
+            font-weight: normal;
+            font-size: 12px;
+        }
+        
+        .terms-link {
+            color: #e57373;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #7f8c8d;
+        }
+        
+        .login-link a {
+            color: #e57373;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        hr {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid #f0d6d6;
+        }
+        
+        @media (max-width: 600px) {
+            .form-row {
+                flex-direction: column;
+                gap: 16px;
+            }
+            
+            .step-label {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="logo-section">
+        <div class="logo-circle">
+            <span>🏥</span>
+        </div>
+        <h1>Register to MediCare</h1>
+        <div class="subtitle">Create your Account in 3 easy steps</div>
+    </div>
+    
+    <div id="errorMessage" class="error-message" style="display: none;"></div>
+    <div id="successMessage" class="success-message" style="display: none;"></div>
+    
+    <!-- Step Indicators -->
+    <div class="step-indicators">
+        <div class="step" id="step1Indicator">
+            <div class="step-circle"><span>1</span></div>
+            <div class="step-label">Personal Info</div>
+        </div>
+        <div class="step" id="step2Indicator">
+            <div class="step-circle"><span>2</span></div>
+            <div class="step-label">Security</div>
+        </div>
+        <div class="step" id="step3Indicator">
+            <div class="step-circle"><span>3</span></div>
+            <div class="step-label">Verification</div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </div>
+    
+    <!-- Step 1 Form -->
+    <div id="step1Form" class="form-step active-step">
+        <div class="form-row">
+            <div class="form-group">
+                <label><span class="required">*</span> User Name</label>
+                <input type="text" id="username" name="username" pattern="[A-Za-z]+" title="Letters only, A-Z" placeholder="johndoe">
+                <div class="field-hint">Letters only, A-Z</div>
+            </div>
+            <div class="form-group">
+                <label><span class="required">*</span> First Name</label>
+                <input type="text" id="firstname" name="firstname" pattern="[A-Za-z]+" title="Letters only" placeholder="John">
+                <div class="field-hint">Letters only</div>
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label>Middle Name</label>
+                <input type="text" id="middlename" name="middlename" placeholder="Optional">
+                <div class="field-hint">Optional</div>
+            </div>
+            <div class="form-group">
+                <label><span class="required">*</span> Last Name</label>
+                <input type="text" id="lastname" name="lastname" placeholder="Doe">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label><span class="required">*</span> Email Address</label>
+            <input type="email" id="email" name="email" placeholder="john.doe@medicare.com">
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label><span class="required">*</span> Year</label>
+                <select id="year">
+                    <option value="">Select Year</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label><span class="required">*</span> Month</label>
+                <select id="month">
+                    <option value="">Select Month</option>
+                    <option value="1">01-Jan</option><option value="2">02-Feb</option><option value="3">03-Mar</option>
+                    <option value="4">04-Apr</option><option value="5">05-May</option><option value="6">06-Jun</option>
+                    <option value="7">07-Jul</option><option value="8">08-Aug</option><option value="9">09-Sep</option>
+                    <option value="10">10-Oct</option><option value="11">11-Nov</option><option value="12">12-Dec</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label><span class="required">*</span> Day</label>
+                <select id="day">
+                    <option value="">Select Day</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="09XXXXXXXXX">
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label><span class="required">*</span> House Number/Purok/Street</label>
+                <input type="text" id="house" name="house" placeholder="123 Main St">
+            </div>
+            <div class="form-group">
+                <label><span class="required">*</span> Barangay</label>
+                <input type="text" id="barangay" name="barangay" placeholder="Barangay Name">
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label><span class="required">*</span> Municipality/City</label>
+                <input type="text" id="municipality" name="municipality" placeholder="City/Municipality">
+            </div>
+            <div class="form-group">
+                <label><span class="required">*</span> Province</label>
+                <input type="text" id="province" name="province" placeholder="Province">
+            </div>
+        </div>
+        
+        <button type="button" class="btn btn-primary" onclick="nextToStep2()">Next →</button>
+    </div>
+    
+    <!-- Step 2 Form -->
+    <div id="step2Form" class="form-step">
+        <div class="form-group">
+            <label><span class="required">*</span> Password</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" placeholder="Create a strong password">
+                <button type="button" class="toggle-password" onclick="togglePassword('password', this)">👁️</button>
+            </div>
+            <div class="field-hint">Min 8 characters with uppercase, lowercase, number & special character</div>
+            <div class="strength-label" id="strengthLabel"></div>
+            <div class="suggestion-label" id="suggestionLabel"></div>
+        </div>
+        
+        <div class="form-group">
+            <label><span class="required">*</span> Confirm Password</label>
+            <div class="password-wrapper">
+                <input type="password" id="confirmPassword" placeholder="Confirm your password">
+                <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword', this)">👁️</button>
+            </div>
+        </div>
+        
+        <div class="btn-group">
+            <button type="button" class="btn btn-secondary" onclick="goToStep(1)">← Back</button>
+            <button type="button" class="btn btn-primary" onclick="nextToStep3()">Next →</button>
+        </div>
+    </div>
+    
+    <!-- Step 3 Form -->
+    <div id="step3Form" class="form-step">
+        <div class="form-group">
+            <label><span class="required">*</span> Invite Code</label>
+            <input type="text" id="inviteCode" placeholder="Enter invite code from admin">
+            <div class="field-hint">Enter the invite code provided by admin</div>
+        </div>
+        
+        <div class="form-group">
+            <label><span class="required">*</span> One-Time Password (OTP)</label>
+            <div class="otp-row">
+                <input type="text" id="otp" placeholder="Enter 6-digit code">
+                <button type="button" class="btn btn-secondary btn-sm" id="sendOtpBtn" onclick="sendOTP()">Send OTP</button>
+            </div>
+            <div class="otp-status" id="otpStatus">Click 'Send OTP' to receive a verification code</div>
+        </div>
+        
+        <div class="terms-row">
+            <input type="checkbox" id="terms">
+            <label>I agree to the <span class="terms-link" onclick="alert('📜 Terms of Service would be displayed here in production')">Terms of Service</span> and <span class="terms-link" onclick="alert('🔒 Privacy Policy would be displayed here in production')">Privacy Policy</span></label>
+        </div>
+        
+        <div class="btn-group">
+            <button type="button" class="btn btn-secondary" onclick="goToStep(2)">← Back</button>
+            <button type="button" class="btn btn-primary" onclick="completeRegistration()">Create Account</button>
+        </div>
+    </div>
+    
+    <div class="login-link">
+    Do you have an account?
+    <a href="index.html">Log in</a>
+</div>
+</div>
+
+<script>
+    // ---------- Registration State (Client-side simulation) ----------
+    let currentStep = 1;
+    let otpVerified = false;
+    let otpCode = null;
+    let otpExpiry = 0;
+    let countdownInterval = null;
+    
+    // stored data object
+    let formData = {
+        username: '', firstname: '', middlename: '', lastname: '', email: '',
+        year: '', month: '', day: '', phone: '', house: '', barangay: '', municipality: '', province: '',
+        password: ''
+    };
+    
+    // Helper: show/hide messages
+    function showError(msg) {
+        const errDiv = document.getElementById('errorMessage');
+        errDiv.textContent = msg;
+        errDiv.style.display = 'block';
+        setTimeout(() => { errDiv.style.display = 'none'; }, 5000);
+    }
+    
+    function showSuccess(msg) {
+        const sucDiv = document.getElementById('successMessage');
+        sucDiv.textContent = msg;
+        sucDiv.style.display = 'block';
+        setTimeout(() => { sucDiv.style.display = 'none'; }, 3000);
+    }
+    
+    // Update UI based on step
+    function updateStepUI() {
+        // steps visibility
+        document.getElementById('step1Form').classList.remove('active-step');
+        document.getElementById('step2Form').classList.remove('active-step');
+        document.getElementById('step3Form').classList.remove('active-step');
+        if (currentStep === 1) document.getElementById('step1Form').classList.add('active-step');
+        else if (currentStep === 2) document.getElementById('step2Form').classList.add('active-step');
+        else if (currentStep === 3) document.getElementById('step3Form').classList.add('active-step');
+        
+        // step indicators
+        const step1Ind = document.getElementById('step1Indicator');
+        const step2Ind = document.getElementById('step2Indicator');
+        const step3Ind = document.getElementById('step3Indicator');
+        
+        step1Ind.classList.remove('active', 'completed');
+        step2Ind.classList.remove('active', 'completed');
+        step3Ind.classList.remove('active', 'completed');
+        
+        if (currentStep >= 1) {
+            if (currentStep > 1) step1Ind.classList.add('completed');
+            else step1Ind.classList.add('active');
+        }
+        if (currentStep >= 2) {
+            if (currentStep > 2) step2Ind.classList.add('completed');
+            else step2Ind.classList.add('active');
+        }
+        if (currentStep >= 3) step3Ind.classList.add('active');
+        
+        const progress = ((currentStep - 1) / 2) * 100;
+        document.getElementById('progressFill').style.width = progress + '%';
+    }
+    
+    // collect step1 data into object
+    function collectStep1Data() {
+        return {
+            username: document.getElementById('username').value.trim(),
+            firstname: document.getElementById('firstname').value.trim(),
+            middlename: document.getElementById('middlename').value.trim(),
+            lastname: document.getElementById('lastname').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            year: document.getElementById('year').value,
+            month: document.getElementById('month').value,
+            day: document.getElementById('day').value,
+            phone: document.getElementById('phone').value.trim(),
+            house: document.getElementById('house').value.trim(),
+            barangay: document.getElementById('barangay').value.trim(),
+            municipality: document.getElementById('municipality').value.trim(),
+            province: document.getElementById('province').value.trim()
+        };
+    }
+    
+    function validateStep1() {
+        const data = collectStep1Data();
+        if (!data.username) { showError('Please enter a username'); return false; }
+        if (!/^[A-Za-z]+$/.test(data.username)) { showError('Username must contain only letters A-Z'); return false; }
+        if (!data.firstname) { showError('Please enter first name'); return false; }
+        if (!/^[A-Za-z]+$/.test(data.firstname)) { showError('First name must contain only letters'); return false; }
+        if (!data.lastname) { showError('Please enter last name'); return false; }
+        if (!data.email) { showError('Please enter email address'); return false; }
+        if (!/^\S+@\S+\.\S+$/.test(data.email)) { showError('Enter a valid email address'); return false; }
+        if (!data.year || !data.month || !data.day) { showError('Please select date of birth'); return false; }
+        if (!data.house) { showError('Please enter house number/purok/street'); return false; }
+        if (!data.barangay) { showError('Please enter barangay'); return false; }
+        if (!data.municipality) { showError('Please enter municipality/city'); return false; }
+        if (!data.province) { showError('Please enter province'); return false; }
+        
+        // store step1 data
+        formData = { ...formData, ...data };
+        return true;
+    }
+    
+    function validateStep2() {
+        const password = document.getElementById('password').value;
+        const confirm = document.getElementById('confirmPassword').value;
+        
+        if (!password) { showError('Please enter a password'); return false; }
+        if (password.length < 8) { showError('Password must be at least 8 characters'); return false; }
+        if (!/[A-Z]/.test(password)) { showError('Password must contain at least one uppercase letter'); return false; }
+        if (!/[a-z]/.test(password)) { showError('Password must contain at least one lowercase letter'); return false; }
+        if (!/[0-9]/.test(password)) { showError('Password must contain at least one number'); return false; }
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) { showError('Password must contain at least one special character'); return false; }
+        if (password !== confirm) { showError('Passwords do not match'); return false; }
+        
+        formData.password = password;
+        return true;
+    }
+    
+    function validateStep3() {
+        const invite = document.getElementById('inviteCode').value.trim();
+        const terms = document.getElementById('terms').checked;
+        if (!invite) { showError('Please enter your invite code'); return false; }
+        if (invite !== 'MED2410' && invite !== 'STAFF123' && invite !== 'ADMINCODE') {
+            showError('Invalid invite code. Please use valid code provided by admin. (Test: MED2410, STAFF123)');
+            return false;
+        }
+        if (!otpVerified) { showError('Please verify your OTP first.'); return false; }
+        if (!terms) { showError('You must agree to the Terms of Service and Privacy Policy'); return false; }
+        return true;
+    }
+    
+    function nextToStep2() {
+        if (validateStep1()) {
+            currentStep = 2;
+            updateStepUI();
+        }
+    }
+    
+    function nextToStep3() {
+        if (validateStep2()) {
+            // reset OTP state when entering step3
+            otpVerified = false;
+            otpCode = null;
+            document.getElementById('otpStatus').innerHTML = "Click 'Send OTP' to receive a verification code";
+            document.getElementById('otpStatus').style.color = "#e67e22";
+            document.getElementById('otp').value = '';
+            document.getElementById('inviteCode').value = '';
+            document.getElementById('terms').checked = false;
+            currentStep = 3;
+            updateStepUI();
+        }
+    }
+    
+    function goToStep(step) {
+        currentStep = step;
+        updateStepUI();
+        if (step === 2) {
+            // prefill password fields if needed
+        }
+        if (step === 1) {
+            // restore data from formData object to inputs
+            document.getElementById('username').value = formData.username || '';
+            document.getElementById('firstname').value = formData.firstname || '';
+            document.getElementById('middlename').value = formData.middlename || '';
+            document.getElementById('lastname').value = formData.lastname || '';
+            document.getElementById('email').value = formData.email || '';
+            document.getElementById('year').value = formData.year || '';
+            document.getElementById('month').value = formData.month || '';
+            document.getElementById('day').value = formData.day || '';
+            document.getElementById('phone').value = formData.phone || '';
+            document.getElementById('house').value = formData.house || '';
+            document.getElementById('barangay').value = formData.barangay || '';
+            document.getElementById('municipality').value = formData.municipality || '';
+            document.getElementById('province').value = formData.province || '';
+            updateDays();
+        }
+    }
+    
+    // OTP Functions (Client simulation)
+    function sendOTP() {
+        const email = formData.email;
+        if (!email) {
+            showError('Email not found. Please go back to Step 1 and enter email.');
+            return;
+        }
+        const btn = document.getElementById('sendOtpBtn');
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
+        
+        // simulate OTP generation
+        setTimeout(() => {
+            const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+            otpCode = generatedOtp;
+            otpExpiry = Date.now() + 60 * 1000;
+            otpVerified = false;
+            
+            // Simulate email sending (just show in console/toast)
+            console.log('OTP (demo):', generatedOtp);
+            alert(`📧 DEMO MODE: OTP sent to ${email}\nYour verification code is: ${generatedOtp}\n(Use this code to verify)`);
+            
+            const statusDiv = document.getElementById('otpStatus');
+            statusDiv.innerHTML = `✓ OTP sent! Check your email (demo: ${generatedOtp}). Code expires in 60s.`;
+            statusDiv.style.color = '#27ae60';
+            
+            startCountdown(60, btn);
+        }, 500);
+    }
+    
+    function startCountdown(seconds, btn) {
+        let remaining = seconds;
+        const interval = setInterval(() => {
+            if (remaining <= 0) {
+                clearInterval(interval);
+                btn.disabled = false;
+                btn.textContent = 'Send OTP';
+            } else {
+                btn.textContent = `Resend (${remaining}s)`;
+                remaining--;
+            }
+        }, 1000);
+        if (countdownInterval) clearInterval(countdownInterval);
+        countdownInterval = interval;
+    }
+    
+    // OTP verification via blur or manual call
+    function verifyOTPManually() {
+        const enteredOtp = document.getElementById('otp').value.trim();
+        if (!enteredOtp) {
+            document.getElementById('otpStatus').innerHTML = 'Please enter the 6-digit OTP code';
+            document.getElementById('otpStatus').style.color = '#e74c3c';
+            return false;
+        }
+        if (Date.now() > otpExpiry) {
+            document.getElementById('otpStatus').innerHTML = 'OTP has expired. Please request a new one.';
+            document.getElementById('otpStatus').style.color = '#e74c3c';
+            return false;
+        }
+        if (enteredOtp !== otpCode) {
+            document.getElementById('otpStatus').innerHTML = 'Invalid OTP. Please check the code and try again.';
+            document.getElementById('otpStatus').style.color = '#e74c3c';
+            return false;
+        }
+        otpVerified = true;
+        document.getElementById('otpStatus').innerHTML = '✓ OTP verified successfully!';
+        document.getElementById('otpStatus').style.color = '#27ae60';
+        return true;
+    }
+    
+    document.getElementById('otp')?.addEventListener('blur', function() {
+        if (this.value.length === 6) verifyOTPManually();
+    });
+    
+    function completeRegistration() {
+        if (validateStep3()) {
+            const fullName = `${formData.firstname} ${formData.lastname}`;
+            alert(`✅ ACCOUNT CREATED SUCCESSFULLY!\n\nWelcome ${fullName}!\nRole: STAFF\n\nYou are now registered and will be redirected to the dashboard.`);
+            // simulate redirect
+            window.location.href = 'staff_dashboard.html';
+        }
+    }
+    
+    // Password strength real-time
+    const passwordField = document.getElementById('password');
+    const strengthLabel = document.getElementById('strengthLabel');
+    const suggestionLabel = document.getElementById('suggestionLabel');
+    
+    function checkStrength(pwd) {
+        let strength = 0;
+        let suggestions = [];
+        if (pwd.length >= 8) strength++; else suggestions.push("• Use at least 8 characters");
+        if (/[A-Z]/.test(pwd)) strength++; else suggestions.push("• Add an uppercase letter (A-Z)");
+        if (/[a-z]/.test(pwd)) strength++; else suggestions.push("• Add a lowercase letter (a-z)");
+        if (/[0-9]/.test(pwd)) strength++; else suggestions.push("• Add a number (0-9)");
+        if (/[!@#$%^&*(),.?":{}|<>]/.test(pwd)) strength++; else suggestions.push("• Add a special character (!@#$%^&*)");
+        if (pwd.length === 0) return { text: '', color: '', suggestions: [] };
+        if (strength <= 2) return { text: '⚠️ Weak Password', color: '#e74c3c', suggestions: suggestions.slice(0, 3) };
+        if (strength <= 4) return { text: '🟡 Medium Password', color: '#f39c12', suggestions: suggestions.slice(0, 2) };
+        return { text: '✅ Strong Password', color: '#27ae60', suggestions: ['✓ Excellent! Your password is secure.'] };
+    }
+    
+    passwordField?.addEventListener('input', function() {
+        const res = checkStrength(this.value);
+        strengthLabel.textContent = res.text;
+        strengthLabel.style.color = res.color;
+        suggestionLabel.textContent = res.suggestions.join('\n');
+    });
+    
+    // populate years & update days
+    function populateYears() {
+        const yearSelect = document.getElementById('year');
+        const currentYear = new Date().getFullYear();
+        for (let y = currentYear; y >= 1900; y--) {
+            const option = document.createElement('option');
+            option.value = y;
+            option.textContent = y;
+            yearSelect.appendChild(option);
+        }
+    }
+    
+    function updateDays() {
+        const year = document.getElementById('year').value;
+        const month = document.getElementById('month').value;
+        const daySelect = document.getElementById('day');
+        if (!year || !month) return;
+        const daysInMonth = new Date(year, month, 0).getDate();
+        daySelect.innerHTML = '<option value="">Select Day</option>';
+        for (let i = 1; i <= daysInMonth; i++) {
+            const opt = document.createElement('option');
+            opt.value = String(i).padStart(2, '0');
+            opt.textContent = String(i).padStart(2, '0');
+            daySelect.appendChild(opt);
+        }
+    }
+    
+    document.getElementById('year')?.addEventListener('change', updateDays);
+    document.getElementById('month')?.addEventListener('change', updateDays);
+    
+    function togglePassword(fieldId, btn) {
+        const field = document.getElementById(fieldId);
+        if (field.type === 'password') {
+            field.type = 'text';
+            btn.textContent = '🙈';
+        } else {
+            field.type = 'password';
+            btn.textContent = '👁️';
+        }
+    }
+    
+    // initial load
+    populateYears();
+    updateStepUI();
+    updateDays();
+    
+    window.nextToStep2 = nextToStep2;
+    window.nextToStep3 = nextToStep3;
+    window.goToStep = goToStep;
+    window.sendOTP = sendOTP;
+    window.togglePassword = togglePassword;
+    window.completeRegistration = completeRegistration;
+</script>
+</body>
+</html>

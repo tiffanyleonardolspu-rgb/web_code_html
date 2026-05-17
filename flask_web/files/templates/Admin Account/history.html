@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History | MediCare</title>
+    
+    <!-- COPY THESE EXACT LINKS FROM YOUR WORKING PAGE -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar_design.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/staff_dashboard.css') }}">
+</head>
+<body>
+
+    <style>
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 8px 18px;
+            border: none;
+            border-radius: 20px;
+            background: #f1f1f1;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tab-btn .count {
+            background: #fff;
+            color: #333;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .tab-btn.active {
+            background: #e57373;
+            color: white;
+        }
+
+        .tab-btn.active .count {
+            background: white;
+            color: #e57373;
+        }
+
+        .mark-all-btn {
+            background: #e57373;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .history-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 5px solid;
+        }
+
+        .history-card.approved {
+            border-left-color: #2ed573;
+        }
+
+        .history-card.rejected {
+            border-left-color: #ff4757;
+        }
+
+        .history-card.alert {
+            border-left-color: #ffa502;
+        }
+
+        .history-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .history-message {
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .history-time {
+            font-size: 13px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <!-- TOGGLE BUTTON -->
+<div class="toggle-btn" id="toggleBtn">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<!-- OVERLAY -->
+<div id="overlay"></div>
+
+<div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo" class="logo" />
+            <h2>MediCare | Admin</h2>
+            <p>Inventory System</p>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('admin_account') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('medicine_tab') }}">Medicine</a></li>
+                <li><a href="{{ url_for('notif_tab') }}">Notification</a></li>
+                <li><a href="{{ url_for('staff_account') }}">Staff</a></li>
+                <li class="active"><a href="{{ url_for('history_tab') }}">History</a></li>
+                <li><a href="{{ url_for('trash_tab') }}">Trash</a></li>
+                <li><a href="{{ url_for('generate_invite') }}">Generate Invite Code</a></li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button onclick="return confirm('Are you sure you want to log out?')">
+                <a href="{{ url_for('logout') }}">Log out</a>
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="history-header">
+            <h1>History</h1>
+            <button class="mark-all-btn">Mark all as read</button>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="changeTab(this, 'today')">Today <span class="count">7</span></button>
+            <button class="tab-btn" onclick="changeTab(this, 'all')">View All <span class="count">7</span></button>
+            <button class="tab-btn" onclick="changeTab(this, 'approved')">Approved <span class="count">5</span></button>
+            <button class="tab-btn" onclick="changeTab(this, 'rejected')">Rejected <span class="count">1</span></button>
+            <button class="tab-btn" onclick="changeTab(this, 'alerts')">View Alerts <span class="count">1</span></button>
+        </div>
+
+        <div class="history-list">
+            <div class="history-card approved" data-type="today approved">
+                <div class="history-title">hello123@gmail.com was approved.</div>
+                <div class="history-message">User account approved</div>
+                <div class="history-time">23 sec ago</div>
+            </div>
+
+            <div class="history-card approved" data-type="today approved">
+                <div class="history-title">Airis.DonnaGon@gmail.com was approved.</div>
+                <div class="history-message">User account approved</div>
+                <div class="history-time">1 min ago</div>
+            </div>
+
+            <div class="history-card approved" data-type="today approved">
+                <div class="history-title">gabriela.handsup@gmail.com was approved.</div>
+                <div class="history-message">User account approved</div>
+                <div class="history-time">3 min ago</div>
+            </div>
+
+            <div class="history-card approved" data-type="today approved">
+                <div class="history-title">jillian.joy@gmail.com was approved.</div>
+                <div class="history-message">User account approved</div>
+                <div class="history-time">5 min ago</div>
+            </div>
+
+            <div class="history-card approved" data-type="approved">
+                <div class="history-title">user071521@gmail.com was approved.</div>
+                <div class="history-message">User account approved</div>
+                <div class="history-time">1 hour ago</div>
+            </div>
+
+            <div class="history-card rejected" data-type="today rejected">
+                <div class="history-title">userhvanrTV@gmail.com was rejected.</div>
+                <div class="history-message">User account rejected</div>
+                <div class="history-time">2 hours ago</div>
+            </div>
+
+            <div class="history-card alert" data-type="alerts">
+                <div class="history-title">Your Salbutamol is low on stock.</div>
+                <div class="history-message">Alert notification</div>
+                <div class="history-time">2 hours ago</div>
+            </div>
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+function changeTab(button, type) {
+    // Remove active class from all buttons
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    // Add active class to clicked button
+    button.classList.add('active');
+
+    // Show/hide history items
+    const cards = document.querySelectorAll('.history-card');
+    cards.forEach(card => {
+        if (type === 'all' || card.dataset.type.includes(type)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+// Mark all as read functionality
+document.querySelector('.mark-all-btn').onclick = function() {
+    document.querySelectorAll('.history-card').forEach(card => {
+        card.style.opacity = '0.7';
+    });
+    alert('All marked as read!');
+}
+</script>
+
+</body>
+</html>

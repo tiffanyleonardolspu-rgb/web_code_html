@@ -1,0 +1,170 @@
+[
+  {
+    "id": 1,
+    "fullName": "Jillian Gutierrez",
+    "username": "jillian.gutierrez",
+    "dateOfBirth": "1990-05-15",
+    "email": "jillian.gutierrez@rhupila.ph",
+    "phoneNumber": "+63 912 345 6789",
+    "userRole": "Inventory Manager",
+    "address": {
+      "street": "123 Health Avenue",
+      "purok": "Purok 2",
+      "barangay": "Barangay San Antonio",
+      "municipality": "Pila",
+      "cityProvince": "Laguna"
+    },
+    "inviteCode": "INV-MED-001",
+    "registeredDate": "2025-01-10",
+    "lastActive": "2026-05-07 13:50:38",
+    "approvalStatus": "approved",
+    "profilePic": null
+  },
+  {
+    "id": 2,
+    "fullName": "Dr. Maria Santos",
+    "username": "maria.santos",
+    "dateOfBirth": "1985-08-22",
+    "email": "maria.santos@rhupila.ph",
+    "phoneNumber": "+63 922 456 7890",
+    "userRole": "Senior Physician",
+    "address": {
+      "street": "456 Wellness Street",
+      "purok": "Purok 5",
+      "barangay": "Barangay Sta. Rosa",
+      "municipality": "Pila",
+      "cityProvince": "Laguna"
+    },
+    "inviteCode": "INV-MED-002",
+    "registeredDate": "2025-02-01",
+    "lastActive": "2026-05-07 14:01:23",
+    "approvalStatus": "approved",
+    "profilePic": null
+  },
+  {
+    "id": 3,
+    "fullName": "Mark Chen",
+    "username": "mark.chen",
+    "dateOfBirth": "1988-03-10",
+    "email": "mark.chen@rhupila.ph",
+    "phoneNumber": "+63 933 567 8901",
+    "userRole": "Nurse Practitioner",
+    "address": {
+      "street": "789 Care Lane",
+      "purok": "Purok 3",
+      "barangay": "Barangay San Isidro",
+      "municipality": "Pila",
+      "cityProvince": "Laguna"
+    },
+    "inviteCode": "INV-MED-003",
+    "registeredDate": "2025-02-10",
+    "lastActive": "2026-05-07 14:00:23",
+    "approvalStatus": "approved",
+    "profilePic": null
+  },
+  {
+    "id": 4,
+    "fullName": "Sophia Martinez",
+    "username": "sophia.martinez",
+    "dateOfBirth": "1992-11-28",
+    "email": "sophia.martinez@rhupila.ph",
+    "phoneNumber": "+63 944 678 9012",
+    "userRole": "Lab Technician",
+    "address": {
+      "street": "321 Lab Street",
+      "purok": "Purok 1",
+      "barangay": "Barangay Bambang",
+      "municipality": "Pila",
+      "cityProvince": "Laguna"
+    },
+    "inviteCode": "INV-TECH-001",
+    "registeredDate": "2025-02-18",
+    "lastActive": "2026-05-07 13:24:11",
+    "approvalStatus": "pending",
+    "profilePic": null
+  },
+  {
+    "id": 5,
+    "fullName": "James Whitmore",
+    "username": "james.whitmore",
+    "dateOfBirth": "1979-07-04",
+    "email": "james.whitmore@rhupila.ph",
+    "phoneNumber": "+63 955 789 0123",
+    "userRole": "Pharmacist",
+    "address": {
+      "street": "654 Pharma Road",
+      "purok": "Purok 7",
+      "barangay": "Barangay San Pedro",
+      "municipality": "Pila",
+      "cityProvince": "Laguna"
+    },
+    "inviteCode": "INV-PHR-001",
+    "registeredDate": "2025-02-20",
+    "lastActive": "2026-05-07 13:24:11",
+    "approvalStatus": "declined",
+    "profilePic": null
+  },
+  {
+    "id": 6,
+    "fullName": "Linda Park",
+    "username": "linda.park",
+    "dateOfBirth": "1987-09-12",
+    "email": "linda.park@rhupila.ph",
+    "phoneNumber": "+63 966 890 1234",
+    "userRole": "Radiology Tech",
+    "address": {
+      "street": "987 X-ray Avenue",
+      "purok": "Purok 4",
+      "barangay": "Barangay San Rafael",
+      "municipality": "Pila",
+      "cityProvince": "Laguna"
+    },
+    "inviteCode": "INV-TECH-002",
+    "registeredDate": "2025-02-22",
+    "lastActive": "2026-05-07 13:40:14",
+    "approvalStatus": "approved",
+    "profilePic": null
+  },
+  {
+    "id": 7,
+    "fullName": "Robert Hayes",
+    "username": "robert.hayes",
+    "dateOfBirth": "1983-01-19",
+    "email": "robert.hayes@rhupila.ph",
+    "phoneNumber": "+63 977 901 2345",
+    "userRole": "Clinical Psychologist",
+    "address": {
+      "street": "234 Mind Health St",
+      "purok": "Purok 6",
+      "barangay": "Barangay San Juan",
+      "municipality": "Pila",
+      "cityProvince": "Laguna"
+    },
+    "inviteCode": "INV-PSY-001",
+    "registeredDate": "2025-02-25",
+    "lastActive": "2026-05-07 13:24:11",
+    "approvalStatus": "pending",
+    "profilePic": null
+  },
+  {
+    "id": 8,
+    "fullName": "Aisha Kamal",
+    "username": "aisha.kamal",
+    "dateOfBirth": "1994-12-03",
+    "email": "aisha.kamal@rhupila.ph",
+    "phoneNumber": "+63 988 012 3456",
+    "userRole": "Junior Resident",
+    "address": {
+      "street": "567 Residency Drive",
+      "purok": "Purok 8",
+      "barangay": "Barangay San Miguel",
+      "municipality": "Pila",
+      "cityProvince": "Laguna"
+    },
+    "inviteCode": "INV-RES-001",
+    "registeredDate": "2025-03-01",
+    "lastActive": "2026-05-07 13:24:11",
+    "approvalStatus": "approved",
+    "profilePic": null
+  }
+]
